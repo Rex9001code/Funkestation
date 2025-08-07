@@ -692,12 +692,6 @@ SUBSYSTEM_DEF(plexora)
 		var/returning = list("type" = type)
 
 		switch(type)
-			if ("coin")
-				var/amount = input["coins"]
-				if (isnull(amount))
-					amount = 5000
-				returning["coins"] = amount
-				returning["code"] = generate_coin_code(amount, TRUE)
 			if ("loadout")
 				var/loadout = input["loadout"]
 				//we are not chosing a random one for this, you MUST specify
@@ -723,30 +717,6 @@ SUBSYSTEM_DEF(plexora)
 				returning["code"] = generate_unusual_code(item, effect, TRUE)
 
 		. += list(returning)
-
-/datum/world_topic/plx_givecoins
-	keyword = "PLX_givecoins"
-	require_comms_key = TRUE
-
-/datum/world_topic/plx_givecoins/Run(list/input)
-	var/ckey = input["ckey"]
-	var/amount = input["amount"]
-	var/reason = input["reason"]
-
-	var/client/userclient = disambiguate_client(ckey)
-
-	var/datum/preferences/prefs
-	if (QDELETED(userclient))
-		var/datum/client_interface/mock_player = new(ckey)
-		mock_player.prefs = new /datum/preferences(mock_player)
-
-		prefs = mock_player.prefs
-	else
-		prefs = userclient.prefs
-
-	prefs.adjust_metacoins(ckey, amount, reason, donator_multiplier = FALSE, respects_roundcap = FALSE, announces = FALSE)
-
-	return list("totalcoins" = prefs.metacoins)
 
 /datum/world_topic/plx_generategiveawaycode
 	keyword = "PLX_generategiveawaycode"

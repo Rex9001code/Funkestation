@@ -457,6 +457,3 @@
 /datum/config_entry/flag/disallow_circuit_sounds
 
 /datum/config_entry/flag/give_tutorials_without_db
-
-/datum/config_entry/string/metacurrency_name
-	config_entry_value = "Monkecoins"
