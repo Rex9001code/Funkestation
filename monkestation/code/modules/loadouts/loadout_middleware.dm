@@ -61,7 +61,6 @@
 	data["user_is_donator"] = !!(preferences.parent.persistent_client.patreon?.is_donator() || preferences.parent.persistent_client.twitch?.is_donator() || is_admin(preferences.parent))
 	data["mob_name"] = preferences.read_preference(/datum/preference/name/real_name)
 	data["ismoth"] = istype(preferences.parent.prefs.read_preference(/datum/preference/choiced/species), /datum/species/moth) // Moth's humanflaticcon isn't the same dimensions for some reason
-	data["total_coins"] = preferences.metacoins
 
 	return data
 

@@ -33,13 +33,6 @@ export const StoreManager = (props) => {
             <Section
               title="Store Categories"
               align="center"
-              buttons={
-                <Button
-                  icon="fa-solid fa-coins"
-                  content={total_coins}
-                  tooltip="This is your total Monkecoin amount."
-                />
-              }
             >
               <Tabs>
                 {loadout_tabs.map((curTab) => (

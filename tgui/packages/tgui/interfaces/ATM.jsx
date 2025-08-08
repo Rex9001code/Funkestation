@@ -24,21 +24,10 @@ export const ATM = (props) => {
               <Box>Current Account Balance: {cash_balance}</Box>
             </Stack.Item>
             <Stack.Item>
-              <Box>
-                Current Monkecoin Balance: {meta_balance}{' '}
-                <i class="fa-solid fa-coins" />
-              </Box>
-            </Stack.Item>
-            <Stack.Item>
               <Box>Current Lottery Prize Pool: {lottery_pool}</Box>
             </Stack.Item>
           </Section>
           <Section>
-            <Stack.Item>
-              <Button onClick={() => act('withdraw')}>
-                Withdraw Monkecoins
-              </Button>
-            </Stack.Item>
             <Stack.Item>
               <Button onClick={() => act('withdraw_cash')}>
                 Withdraw Cash

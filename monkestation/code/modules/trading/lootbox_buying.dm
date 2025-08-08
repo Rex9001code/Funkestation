@@ -1,3 +1,5 @@
+// Kill lootboxes with hammers
+
 /client/var/lootbox_prompt = FALSE
 
 /client/proc/try_open_or_buy_lootbox()
@@ -16,10 +18,6 @@
 	if(!prefs)
 		lootbox_prompt = FALSE
 		return
-	if(!prefs.has_coins(LOOTBOX_COST))
-		to_chat(src, span_warning("You do not have enough Monkecoins to buy a lootbox!"))
-		lootbox_prompt = FALSE
-		return
 	switch(tgui_alert(src, "Would you like to purchase a lootbox? 5K", "Buy a lootbox!", list("Yes", "No")))
 		if("Yes")
 			attempt_lootbox_buy()
@@ -29,18 +27,11 @@
 			return
 
 /client/proc/attempt_lootbox_buy()
-	if(!prefs.has_coins(LOOTBOX_COST))
-		to_chat(src, span_warning("You do not have enough Monkecoins to buy a lootbox!"))
-		lootbox_prompt = FALSE
-		return
-	if(!prefs.adjust_metacoins(ckey, -LOOTBOX_COST, "Bought a lootbox"))
-		return
 	prefs.lootboxes_owned++
 	prefs.save_preferences()
 
 /client/proc/open_lootbox()
 	message_admins("[ckey] opened a lootbox!")
-	logger.Log(LOG_CATEGORY_META, "[src] has opened a lootbox!", list("currency_left" = prefs.metacoins))
 	log_game("[ckey] opened a lootbox!")
 	if(!mob)
 		return

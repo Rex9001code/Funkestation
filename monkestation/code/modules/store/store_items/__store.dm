@@ -129,8 +129,6 @@ GLOBAL_LIST_EMPTY(all_store_datums)
 		all_selected_paths += path
 	data["user_is_donator"] = !!(owner.persistent_client.patreon.is_donator() || owner.persistent_client.twitch.is_donator() || is_admin(owner))
 	data["owned_items"] = user.client.prefs.inventory
-	data["total_coins"] = user.client.prefs.metacoins
-
 	return data
 
 /datum/store_manager/ui_static_data()

@@ -216,6 +216,6 @@
 			. = "#fff4e6"
 		if("orange")
 			. = "#ffc905"
-		//Used exclusively for the jaundice yourself monkecoin shop purchase
+		//Used exclusively for the jaundice yourself shop purchase
 		if("simpsons_yellow")
 			. = "#F5CD30"

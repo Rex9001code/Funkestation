@@ -42,19 +42,12 @@
 		return
 
 	if(attacked_tape.approved_tape)
-		to_chat(user, span_notice("This tape has already been approved by the Board, it would be a waste of money to send it in again."))
+		to_chat(user, span_notice("This tape has already been approved by the Board."))
 		return
-	var/choice = tgui_alert(user, "Are you sure? This costs 5k Monkecoins", "Mailbox", list("Yes", "No"))
+	var/choice = tgui_alert(user, "Are you sure?", "Mailbox", list("Yes", "No"))
 	if(choice != "Yes")
 		return
-	///these two parts here should be commented out for local testing without a db
-	if(user.client.prefs.metacoins < 5000)
-		to_chat(user, span_notice("Sorry, you don't have enough Monkecoins to submit a cassette for review."))
-		return
 
-	if(!user.client.prefs.adjust_metacoins(user.client.ckey, -5000, "Submitted a mixtape", donator_multiplier = FALSE))
-		return
-	/// this is where it ends
 	attacked_tape.moveToNullspace()
 	submit_cassette_for_review(attacked_tape, user)
 	return TRUE

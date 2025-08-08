@@ -74,11 +74,6 @@ SUBSYSTEM_DEF(ticker)
 	/// ID of round reboot timer, if it exists
 	var/reboot_timer = null
 
-	///add bitflags to this that should be rewarded monkecoins, example: DEPARTMENT_BITFLAG_SECURITY
-	var/list/bitflags_to_reward = list(DEPARTMENT_BITFLAG_SECURITY,)
-	///add jobs to this that should get rewarded monkecoins, example: JOB_SECURITY_OFFICER
-	var/list/jobs_to_reward = list(JOB_JANITOR,)
-
 	var/list/popcount
 
 	/// A lazylist of roundstart splashes, so they can be faded out AFTER antags are initialized.
@@ -544,12 +539,6 @@ SUBSYSTEM_DEF(ticker)
 	var/datum/persistent_client/persistent_client = living.persistent_client
 	if(persistent_client)
 		SSchallenges.apply_challenges(persistent_client)
-		for(var/processing_reward_bitflags in bitflags_to_reward)//you really should use department bitflags if possible
-			if(living.mind.assigned_role.departments_bitflags & processing_reward_bitflags)
-				persistent_client.roundend_monkecoin_bonus += 425
-		for(var/processing_reward_jobs in jobs_to_reward)//just in case you really only want to reward a specific job
-			if(living.job == processing_reward_jobs)
-				persistent_client.roundend_monkecoin_bonus += 425
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
 	var/list/livings = list()

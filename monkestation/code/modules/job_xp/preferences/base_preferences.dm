@@ -107,10 +107,10 @@
 			var/datum/job_milestone/subtype_created = new subtype
 			subtype_created.check_milestones(job_level_list[job], parent)
 
+// Add in some new reward
 /datum/preferences/proc/level_up_reward(job)
 	if(!job || !job_level_list[job])
 		return
-	adjust_metacoins(parent_ckey, 25 * job_level_list[job], "You have leveled up!")
 
 /datum/preferences/proc/return_xp_for_nextlevel()
 	var/list/jobs_with_xp = list()

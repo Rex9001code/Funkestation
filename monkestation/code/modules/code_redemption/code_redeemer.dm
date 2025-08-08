@@ -24,9 +24,7 @@ GLOBAL_LIST_INIT(redeemed_codes, list())
 	var/path = GLOB.stored_codes[code]
 	var/list/list_path = params2list(path)
 
-	if(isnum(path))
-		usr.client.prefs.adjust_metacoins(usr.ckey, path, "Redeemed a Giveaway Code", donator_multiplier = FALSE)
-	else if(path == HIGH_THREAT || path == MEDIUM_THREAT || path == LOW_THREAT)
+	if(path == HIGH_THREAT || path == MEDIUM_THREAT || path == LOW_THREAT)
 		usr.client.client_token_holder.adjust_antag_tokens(path, 1)
 		to_chat(usr, span_boldnotice("You have successfully redeemed a giveaway code for: [path] Antag Token."))
 	else if(list_path["unusual_path"])
@@ -53,8 +51,7 @@ GLOBAL_LIST_INIT(redeemed_codes, list())
 		var/datum/store_item/given_item = new pathedstring
 
 		if(given_item.item_path in usr.client.prefs.inventory)
-			usr.client.prefs.adjust_metacoins(usr.ckey, given_item.item_cost, "Redeemed a Giveaway Code: Already owned the item", donator_multiplier = FALSE)
-			to_chat(usr, span_boldnotice("You already owned this item so you were instead given Monkecoins that is equal to the value."))
+			to_chat(usr, span_boldnotice("You already own this item."))
 		else
 			given_item.finalize_purchase(usr.client)
 			to_chat(usr, span_boldnotice("You have successfully redeemed a giveaway code for: [initial(given_item.item_path.name)]."))

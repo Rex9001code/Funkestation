@@ -94,7 +94,6 @@ export const LoadoutManager = (props) => {
                   fontSize="22px"
                   icon="fa-solid fa-coins"
                   align="center"
-                  tooltip="This is your total Monkecoin amount."
                 >
                   <FitText maxFontSize={22} maxWidth={CLOTHING_CELL_SIZE * 1}>
                     {total_coins}

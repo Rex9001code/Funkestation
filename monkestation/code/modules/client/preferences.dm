@@ -12,9 +12,6 @@
 	///list of all items in inventory
 	var/list/inventory = list()
 
-	///the amount of metacoins currently possessed
-	var/metacoins
-
 	///sound storage
 	var/datum/ui_module/volume_mixer/pref_mixer
 

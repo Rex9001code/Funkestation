@@ -26,7 +26,7 @@ GLOBAL_LIST_INIT(pre_round_items, init_pre_round_items())
 	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "PreRoundStore", "Spend Monkecoins")
+		ui = new(user, src, "PreRoundStore", "Buy shit for free until this is overhauled")
 		ui.open()
 
 /datum/pre_round_store/ui_state(mob/user)
@@ -54,19 +54,10 @@ GLOBAL_LIST_INIT(pre_round_items, init_pre_round_items())
 	. = list(
 		"notices" = config.lobby_notices,
 		"currently_owned" = null,
-		"balance" = 0,
 	)
 	var/datum/preferences/user_prefs = user?.client?.prefs
 	if(QDELETED(src) || QDELETED(user_prefs))
 		return
-	if(!user_prefs.metacoins)
-		user_prefs.load_metacoins(user.client.ckey)
-
-	if(!isnull(bought_item))
-		.["balance"] = user_prefs.metacoins - bought_item::item_cost
-		.["currently_owned"] = bought_item::name
-	else
-		.["balance"] = user_prefs.metacoins
 
 /datum/pre_round_store/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
@@ -93,9 +84,6 @@ GLOBAL_LIST_INIT(pre_round_items, init_pre_round_items())
 	var/datum/preferences/owners_prefs = new_player_mob?.client?.prefs
 	if(isnull(bought_item) || QDELETED(src) || QDELETED(owners_prefs))
 		return
-	if(!owners_prefs.has_coins(bought_item::item_cost))
-		to_chat(new_player_mob, span_warning("It seems you're lacking coins to complete this transaction."))
-		return
 	var/obj/item/created_item = new bought_item.item_path
 
 	if(istype(created_item, /obj/item/effect_granter))
@@ -114,5 +102,4 @@ GLOBAL_LIST_INIT(pre_round_items, init_pre_round_items())
 			return
 		backpack.atom_storage.attempt_insert(created_item, new_player_mob, force = TRUE)
 
-	owners_prefs.adjust_metacoins(new_player_mob.client.ckey, -bought_item::item_cost, "Bought a [created_item] for [initial(bought_item.item_cost)] (Pre-round Store)", donator_multiplier = FALSE)
 	QDEL_NULL(new_player_mob.client.readied_store)

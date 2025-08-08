@@ -1,7 +1,7 @@
 /obj/item/choice_beacon
 	w_class = WEIGHT_CLASS_SMALL
 
-// Pet Beacon for Monkecoin shop
+// Pet Beacon for the shop
 
 /obj/item/choice_beacon/pet
 	name = "Pet Delivery Beacon"
