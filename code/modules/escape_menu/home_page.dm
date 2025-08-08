@@ -31,16 +31,6 @@
 			CALLBACK(src, PROC_REF(start_redeem)),
 		)
 	)
-	page_holder.give_screen_object(
-		new /atom/movable/screen/escape_menu/home_button(
-			null,
-			/* hud_owner = */ null,
-			src,
-			"Open Lootbox",
-			/* offset = */ 3,
-			CALLBACK(src, PROC_REF(try_open_lootbox)),
-		)
-	)
 
 	page_holder.give_screen_object(
 		new /atom/movable/screen/escape_menu/home_button(
@@ -78,9 +68,6 @@
 
 /datum/escape_menu/proc/start_redeem()
 	client?.redeem_code()
-
-/datum/escape_menu/proc/try_open_lootbox()
-	client?.try_open_or_buy_lootbox()
 
 /datum/escape_menu/proc/open_map()
 	var/map_name = replacetext_char(trimtext(SSmapping.current_map.map_name), " ", "")

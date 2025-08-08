@@ -507,9 +507,6 @@ SUBSYSTEM_DEF(plexora)
 	keyword = "PLX_getunusualitems"
 	require_comms_key = TRUE
 
-/datum/world_topic/plx_getunusualitems/Run(list/input)
-	return GLOB.possible_lootbox_clothing
-
 /datum/world_topic/get_unusualeffects
 	keyword = "PLX_getunusualeffects"
 	require_comms_key = TRUE
@@ -704,17 +701,6 @@ SUBSYSTEM_DEF(plexora)
 					tokentype = LOW_THREAT
 				returning["antagtoken"] = tokentype
 				returning["code"] = generate_antag_token_code(tokentype, TRUE)
-			if ("unusual")
-				var/item = input["unusual_item"]
-				var/effect = input["unusual_effect"]
-				if (!item)
-					item = pick(GLOB.possible_lootbox_clothing)
-				if (!effect)
-					var/static/list/possible_effects = subtypesof(/datum/component/particle_spewer) - /datum/component/particle_spewer/movement
-					effect = pick(possible_effects)
-				returning["item"] = item
-				returning["effect"] = effect
-				returning["code"] = generate_unusual_code(item, effect, TRUE)
 
 		. += list(returning)
 

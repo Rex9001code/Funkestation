@@ -816,7 +816,7 @@
 	cost = 25
 	purchasable_from = UPLINK_CLOWN_OPS|UPLINK_NUKE_OPS
 	cant_discount = TRUE
-	surplus = 10 //very rare from lootboxes
+	surplus = 10
 
 /datum/uplink_item/support/bomb_key
 	name = "Syndicate Ordnance Laboratory Access Card"
