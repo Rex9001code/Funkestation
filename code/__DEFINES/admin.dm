@@ -179,9 +179,3 @@ GLOBAL_VAR_INIT(ghost_role_flags, (~0))
 /// MONKE EDIT Used in the logging uses of mentor verbs. Similar to admin.
 /// Only pass it a string key, the verb being used.
 #define BLACKBOX_LOG_MENTOR_VERB(the_verb) SSblackbox.record_feedback("tally", "mentor_verb", 1, the_verb)
-
-//Monke edit for port servers
-#define MRP2_PORT		3122
-#define MRP_PORT		3121
-#define HRP_PORT		1342
-#define VANDERLIN_PORT	1541

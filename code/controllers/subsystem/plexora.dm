@@ -37,7 +37,6 @@ SUBSYSTEM_DEF(plexora)
 	// MUST INCREMENT BY ONE FOR EVERY CHANGE MADE TO PLEXORA
 	var/version_increment_counter = 2
 	var/plexora_is_alive = null // this gets set to TRUE or FALSE during is_plexora_alive, it's just initially null to so logging works properly without spamming
-	var/vanderlin_available = FALSE
 	var/base_url = ""
 	var/enabled = TRUE
 	var/tripped_bad_version = FALSE
