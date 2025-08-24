@@ -23,7 +23,6 @@
 	mutanttongue = /obj/item/organ/internal/tongue/bone/plasmaman
 	mutantliver = /obj/item/organ/internal/liver/bone/plasmaman
 	mutantstomach = /obj/item/organ/internal/stomach/bone/plasmaman
-	mutantbutt = /obj/item/organ/internal/butt/plasma
 	mutantappendix = null
 	mutantheart = null
 	heatmod = 1.5

@@ -488,7 +488,6 @@
 "zr" = (
 /obj/structure/table/fake_abductor,
 /obj/effect/turf_decal/siding/dark,
-/obj/item/organ/internal/butt/bluespace,
 /turf/open/floor/circuit/red/anim,
 /area/station/commons/lounge)
 "zB" = (

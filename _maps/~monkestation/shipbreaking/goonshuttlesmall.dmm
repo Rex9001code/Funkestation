@@ -228,7 +228,6 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/template_noop)
 "D" = (
-/obj/item/organ/internal/butt,
 /turf/open/floor/mineral/titanium/white,
 /area/template_noop)
 "F" = (

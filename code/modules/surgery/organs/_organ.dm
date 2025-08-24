@@ -378,12 +378,6 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 		ears.Insert(src)
 	ears.adjustEarDamage(-INFINITY, -INFINITY) // actually do: set_organ_damage(0) and deaf = 0
 
-	var/obj/item/organ/internal/butt/butt = get_organ_slot(ORGAN_SLOT_BUTT)
-	if(!butt)
-		butt = new()
-		butt.Insert(src)
-		butt.set_organ_damage(0)
-
 	var/obj/item/organ/internal/bladder/bladder = get_organ_slot(ORGAN_SLOT_BLADDER)
 	if(!bladder)
 		bladder = new()

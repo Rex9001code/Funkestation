@@ -161,8 +161,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/obj/item/organ/internal/spleen/mutantspleen = /obj/item/organ/internal/spleen
 	///Replaces default appendix with a different organ.
 	var/obj/item/organ/internal/appendix/mutantappendix = /obj/item/organ/internal/appendix
-	///Replaces default butt with a different organ
-	var/obj/item/organ/internal/butt/mutantbutt = /obj/item/organ/internal/butt
 
 	///Replaces default bladder with a different organ
 	var/obj/item/organ/internal/bladder/mutantbladder = /obj/item/organ/internal/bladder
@@ -350,8 +348,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			return mutantliver
 		if(ORGAN_SLOT_STOMACH)
 			return mutantstomach
-		if(ORGAN_SLOT_BUTT)
-			return mutantbutt
 		if(ORGAN_SLOT_BLADDER)
 			return mutantbladder
 		else
@@ -383,7 +379,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		ORGAN_SLOT_LIVER,
 		ORGAN_SLOT_SPLEEN,
 		ORGAN_SLOT_STOMACH,
-		ORGAN_SLOT_BUTT,
 		ORGAN_SLOT_BLADDER,
 	)
 
@@ -1542,7 +1537,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	to_store += mutantspleen
 	to_store += mutantstomach
 	to_store += mutantappendix
-	to_store += mutantbutt
 	to_store += mutantbladder
 	//We don't cache mutant hands because it's not constrained enough, too high a potential for failure
 	return to_store

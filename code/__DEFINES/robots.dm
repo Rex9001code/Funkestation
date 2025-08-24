@@ -138,8 +138,6 @@ DEFINE_BITFIELD(bot_access_flags, list(
 #define HYGIENE_BOT "Hygienebot"
 /// Vibe bots
 #define VIBE_BOT "Vibebot"
-///Butt bots
-#define BUTT_BOT "Buttbot"
 
 // General Bot modes //
 /// Idle

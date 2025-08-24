@@ -85,7 +85,6 @@
 		/mob/living/simple_animal/soulscythe,
 
 		//MONKESTATION-SPECIFIC ENTRIES START
-		/mob/living/simple_animal/bot/buttbot,
 		/mob/living/simple_animal/bot/secbot/beepsky/big,
 		/mob/living/simple_animal/fish,
 		/mob/living/simple_animal/fish/angelfish,

@@ -588,12 +588,6 @@
 	H.faction |= FACTION_CLOWN
 	if(!ishuman(H))
 		return
-	var/obj/item/organ/internal/butt/butt = H.get_organ_slot(ORGAN_SLOT_BUTT)
-	if(butt)
-		butt.Remove(H, 1)
-		QDEL_NULL(butt)
-		butt = new/obj/item/organ/internal/butt/clown
-		butt.Insert(H)
 
 	var/obj/item/organ/internal/bladder/bladder = H.get_organ_slot(ORGAN_SLOT_BLADDER)
 	if(bladder)

@@ -20,7 +20,6 @@
 					/obj/item/organ/internal/alien,
 					/obj/item/organ/internal/body_egg,
 					/obj/item/organ/internal/heart/gland,
-					/obj/item/organ/internal/butt/atomic,
 					/obj/item/organ/internal/borer_body,
 					/obj/item/organ/internal/empowered_borer_egg,
 					/obj/item/organ/internal/legion_tumour,

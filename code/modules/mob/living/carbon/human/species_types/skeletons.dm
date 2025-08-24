@@ -34,7 +34,6 @@
 	mutantheart = null
 	mutantliver = /obj/item/organ/internal/liver/bone
 	mutantlungs = null
-	mutantbutt = /obj/item/organ/internal/butt/skeletal
 	mutantspleen = null
 	//They can technically be in an ERT
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | ERT_SPAWN
