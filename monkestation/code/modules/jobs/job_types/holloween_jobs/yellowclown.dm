@@ -51,13 +51,6 @@
 		return
 	spawned.apply_pref_name(/datum/preference/name/clown, player_client)
 
-	var/obj/item/organ/internal/bladder/bladder = spawned.get_organ_slot(ORGAN_SLOT_BLADDER)
-	if(bladder)
-		bladder.Remove(spawned, 1)
-		QDEL_NULL(bladder)
-		bladder = new/obj/item/organ/internal/bladder/clown
-		bladder.Insert(spawned)
-
 	if(HAS_TRAIT(SSstation, STATION_TRAIT_CLOWN_BRIDGE))
 		var/obj/item/card/id/card = spawned.get_idcard(hand_first = FALSE)
 		if(card)

@@ -162,8 +162,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	///Replaces default appendix with a different organ.
 	var/obj/item/organ/internal/appendix/mutantappendix = /obj/item/organ/internal/appendix
 
-	///Replaces default bladder with a different organ
-	var/obj/item/organ/internal/bladder/mutantbladder = /obj/item/organ/internal/bladder
 	/// Flat modifier on all damage taken via [apply_damage][/mob/living/proc/apply_damage] (so being punched, shot, etc.)
 	/// IE: 10 = 10% less damage taken.
 	var/damage_modifier = 0
@@ -348,8 +346,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			return mutantliver
 		if(ORGAN_SLOT_STOMACH)
 			return mutantstomach
-		if(ORGAN_SLOT_BLADDER)
-			return mutantbladder
 		else
 			CRASH("Invalid organ slot [slot]")
 
@@ -379,7 +375,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		ORGAN_SLOT_LIVER,
 		ORGAN_SLOT_SPLEEN,
 		ORGAN_SLOT_STOMACH,
-		ORGAN_SLOT_BLADDER,
 	)
 
 	for(var/slot in organ_slots)
@@ -1537,7 +1532,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	to_store += mutantspleen
 	to_store += mutantstomach
 	to_store += mutantappendix
-	to_store += mutantbladder
 	//We don't cache mutant hands because it's not constrained enough, too high a potential for failure
 	return to_store
 

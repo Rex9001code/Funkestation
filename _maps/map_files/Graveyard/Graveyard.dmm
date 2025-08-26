@@ -37757,7 +37757,7 @@
 /area/graveyard/surface/structures/church)
 "oAB" = (
 /obj/effect/spawner/liquids_spawner{
-	reagent_list = list(/datum/reagent/ammonia/urine=600)
+	reagent_list = list(/datum/reagent/ammonia)
 	},
 /turf/open/floor/cult,
 /area/station/service/chapel/funeral)
