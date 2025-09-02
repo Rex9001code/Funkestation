@@ -118,6 +118,8 @@
 	COOLDOWN_DECLARE(command_report_cd) // monkestation edit
 
 	var/jobtitles = TRUE
+	/// The que of ai processing
+	var/datum/ai_que/ais_que
 
 /mob/living/silicon/ai/Initialize(mapload, datum/ai_laws/L, mob/target_ai)
 	. = ..()
@@ -127,6 +129,7 @@
 
 	ADD_TRAIT(src, TRAIT_NO_TELEPORT, AI_ANCHOR_TRAIT)
 	status_flags &= ~CANPUSH //AI starts anchored, so dont push it
+	ais_que = new/datum/ai_que(src)
 
 	if(L && istype(L, /datum/ai_laws))
 		laws = L
