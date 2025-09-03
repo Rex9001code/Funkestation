@@ -133,10 +133,12 @@
 
 	return data
 
-/obj/machinery/computer/launchpad/ui_act(action, params)
+/obj/machinery/computer/launchpad/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
+
 	var/obj/machinery/launchpad/current_pad = launchpads[selected_id]
 	switch(action)
 		if("select_pad")
@@ -162,24 +164,24 @@
 				return
 			current_pad.display_name = new_name
 		if("remove")
-			if(usr && tgui_alert(usr, "Are you sure?", "Unlink Launchpad", list("I'm Sure", "Abort")) == "I'm Sure")
+			if(user && tgui_alert(user, "Are you sure?", "Unlink Launchpad", list("I'm Sure", "Abort")) == "I'm Sure")
 				launchpads -= current_pad
 				selected_id = null
 			. = TRUE
 		if("launch")
 			var/checks = teleport_checks(current_pad)
 			if(isnull(checks))
-				current_pad.doteleport(usr, TRUE)
+				current_pad.doteleport(user, TRUE)
 			else
-				to_chat(usr, span_warning(checks))
+				to_chat(user, span_warning(checks))
 			. = TRUE
 
 		if("pull")
 			var/checks = teleport_checks(current_pad)
 			if(isnull(checks))
-				current_pad.doteleport(usr, FALSE)
+				current_pad.doteleport(user, FALSE)
 			else
-				to_chat(usr, span_warning(checks))
+				to_chat(user, span_warning(checks))
 
 			. = TRUE
 	. = TRUE

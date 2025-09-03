@@ -146,7 +146,7 @@
 	. = !(state_open || panel_open || (flags_1 & NODECONSTRUCT_1)) && I.tool_behaviour == TOOL_CROWBAR
 	if(.)
 		I.play_tool_sound(src, 50)
-		visible_message(span_notice("[usr] pries open [src]."), span_notice("You pry open [src]."))
+		visible_message(span_notice("[user] pries open [src]."), span_notice("You pry open [src]."))
 		open_machine()
 
 /obj/machinery/sleeper/ui_state(mob/user)
@@ -237,10 +237,12 @@
 
 	return data
 
-/obj/machinery/sleeper/ui_act(action, params)
+/obj/machinery/sleeper/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
+
 	playsound(src, 'sound/items/hypospray.ogg', 50, TRUE, 2)
 
 	var/mob/living/mob_occupant = occupant
@@ -258,10 +260,10 @@
 				return
 			if(mob_occupant.health < min_health && !ispath(chem, /datum/reagent/medicine/epinephrine))
 				return
-			if(inject_chem(chem, usr))
+			if(inject_chem(chem, user))
 				. = TRUE
 				if((obj_flags & EMAGGED) && prob(5))
-					to_chat(usr, span_warning("Chemical system re-route detected, results may not be as expected!"))
+					to_chat(user, span_warning("Chemical system re-route detected, results may not be as expected!"))
 
 /obj/machinery/sleeper/emag_act(mob/user, obj/item/card/emag/emag_card)
 	if(obj_flags & EMAGGED)

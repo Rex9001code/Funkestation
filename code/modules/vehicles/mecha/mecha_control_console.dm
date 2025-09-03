@@ -45,9 +45,10 @@
 
 	return data
 
-/obj/machinery/computer/mecha/ui_act(action, params)
+/obj/machinery/computer/mecha/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
 	switch(action)
@@ -55,11 +56,11 @@
 			var/obj/item/mecha_parts/mecha_tracking/MT = locate(params["tracker_ref"])
 			if(!istype(MT))
 				return
-			var/message = tgui_input_text(usr, "Input message", "Transmit message")
+			var/message = tgui_input_text(user, "Input message", "Transmit message")
 			var/obj/vehicle/sealed/mecha/M = MT.chassis
 			if(trim(message) && M)
 				to_chat(M.occupants, message)
-				to_chat(usr, span_notice("Message sent."))
+				to_chat(user, span_notice("Message sent."))
 				. = TRUE
 		if("shock")
 			var/obj/item/mecha_parts/mecha_tracking/MT = locate(params["tracker_ref"])
@@ -68,9 +69,9 @@
 			var/obj/vehicle/sealed/mecha/M = MT.chassis
 			if(M)
 				MT.shock()
-				usr.log_message("has activated remote EMP on exosuit [M], located at [loc_name(M)], which is currently [LAZYLEN(M.occupants) ? "occupied by [M.occupants.Join(", ")]." : "without a pilot."]", LOG_ATTACK)
-				usr.log_message("has activated remote EMP on exosuit [M], located at [loc_name(M)], which is currently [LAZYLEN(M.occupants) ? "occupied by [M.occupants.Join(", ")]." : "without a pilot."]", LOG_GAME, log_globally = FALSE)
-				message_admins("[key_name_admin(usr)][ADMIN_FLW(usr)] has activated remote EMP on exosuit [M][ADMIN_JMP(M)], which is currently [LAZYLEN(M.occupants) ? "occupied by [M.occupants.Join(",")][ADMIN_FLW(M)]." : "without a pilot."]")
+				user.log_message("has activated remote EMP on exosuit [M], located at [loc_name(M)], which is currently [LAZYLEN(M.occupants) ? "occupied by [M.occupants.Join(", ")]." : "without a pilot."]", LOG_ATTACK)
+				user.log_message("has activated remote EMP on exosuit [M], located at [loc_name(M)], which is currently [LAZYLEN(M.occupants) ? "occupied by [M.occupants.Join(", ")]." : "without a pilot."]", LOG_GAME, log_globally = FALSE)
+				message_admins("[key_name_admin(user)][ADMIN_FLW(user)] has activated remote EMP on exosuit [M][ADMIN_JMP(M)], which is currently [LAZYLEN(M.occupants) ? "occupied by [M.occupants.Join(",")][ADMIN_FLW(M)]." : "without a pilot."]")
 				. = TRUE
 
 /obj/item/mecha_parts/mecha_tracking

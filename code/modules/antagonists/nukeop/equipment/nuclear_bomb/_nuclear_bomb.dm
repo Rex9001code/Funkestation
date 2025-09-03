@@ -360,9 +360,10 @@ GLOBAL_VAR(station_nuke_source)
 
 	return data
 
-/obj/machinery/nuclearbomb/ui_act(action, params)
+/obj/machinery/nuclearbomb/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 	ui_process(action, params)
 

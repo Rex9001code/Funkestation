@@ -989,8 +989,10 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module/malf))
 	data["name"] = say_name
 	return data
 
-/obj/machinery/ai_voicechanger/ui_act(action, params)
-	if(..())
+/obj/machinery/ai_voicechanger/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
+	. = ..()
+	if(!.)
 		return
 	switch(action)
 		if("power")

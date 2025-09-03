@@ -208,17 +208,14 @@
 			break
 	return data
 
-/obj/machinery/status_display/door_timer/ui_act(action, params)
+/obj/machinery/status_display/door_timer/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
-	. = TRUE
-
-	var/mob/user = usr
-
-	if(!allowed(usr))
-		to_chat(usr, span_warning("Access denied."))
+	if(!allowed(user))
+		to_chat(user, span_warning("Access denied."))
 		return FALSE
 
 	switch(action)

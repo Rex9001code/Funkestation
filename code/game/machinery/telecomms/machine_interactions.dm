@@ -87,13 +87,14 @@
 
 	return data
 
-/obj/machinery/telecomms/ui_act(action, params)
+/obj/machinery/telecomms/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
-	if(!issilicon(usr))
-		if(!istype(usr.get_active_held_item(), /obj/item/multitool))
+	if(!issilicon(user))
+		if(!istype(user.get_active_held_item(), /obj/item/multitool))
 			return
 
 	var/obj/item/multitool/heldmultitool = get_multitool(operator)
@@ -104,7 +105,6 @@
 			update_power()
 			update_appearance()
 			operator.log_message("toggled [toggled ? "On" : "Off"] [src].", LOG_GAME)
-			. = TRUE
 		if("id")
 			if(params["value"])
 				if(length(params["value"]) > 32)
@@ -114,7 +114,6 @@
 				else
 					id = params["value"]
 					operator.log_message("has changed the ID for [src] to [id].", LOG_GAME)
-					. = TRUE
 		if("network")
 			if(params["value"])
 				if(length(params["value"]) > 15)
@@ -127,7 +126,6 @@
 					network = params["value"]
 					links = list()
 					operator.log_message("has changed the network for [src] to [network].", LOG_GAME)
-					. = TRUE
 		if("tempfreq")
 			if(params["value"])
 				tempfreq = text2num(params["value"]) * 10
@@ -139,11 +137,9 @@
 				if(!(tempfreq in freq_listening))
 					freq_listening.Add(tempfreq)
 					operator.log_message("added frequency [tempfreq] for [src].", LOG_GAME)
-					. = TRUE
 		if("delete")
 			freq_listening.Remove(params["value"])
 			operator.log_message("removed frequency [params["value"]] for [src].", LOG_GAME)
-			. = TRUE
 		if("unlink")
 			var/obj/machinery/telecomms/T = links[text2num(params["value"])]
 			if(T)
@@ -154,13 +150,10 @@
 				. = add_new_link(T, operator)
 		if("buffer")
 			heldmultitool.set_buffer(src)
-			. = TRUE
 		if("flush")
 			heldmultitool.set_buffer(null)
-			. = TRUE
 
 	add_act(action, params)
-	. = TRUE
 
 ///adds new_connection to src's links list AND vice versa. also updates links_by_telecomms_type
 /obj/machinery/telecomms/proc/add_new_link(obj/machinery/telecomms/new_connection, mob/user)

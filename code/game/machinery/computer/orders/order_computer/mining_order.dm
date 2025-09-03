@@ -65,10 +65,13 @@
 /obj/machinery/computer/order_console/mining/retrive_points(obj/item/card/id/id_card)
 	return FLOOR(id_card.registered_account.mining_points, 1)
 
-/obj/machinery/computer/order_console/mining/ui_act(action, params)
+/obj/machinery/computer/order_console/mining/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
 	if(!.)
-		flick("mining-deny", src)
+		return
+
+	flick("mining-deny", src)
 
 /obj/machinery/computer/order_console/mining/attackby(obj/item/weapon, mob/user, params)
 	if(istype(weapon, /obj/item/mining_voucher))

@@ -60,9 +60,12 @@
 	data["init_directions"] = init_directions
 	return data
 
-/obj/machinery/pipedispenser/ui_act(action, params)
-	if(..())
+/obj/machinery/pipedispenser/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
+	. = ..()
+	if(!.)
 		return
+
 	switch(action)
 		if("color")
 			paint_color = params["paint_color"]
@@ -92,7 +95,7 @@
 						pipe_out.pipe_color = GLOB.pipe_paint_colors[paint_color]
 						pipe_out.add_atom_colour(GLOB.pipe_paint_colors[paint_color], FIXED_COLOUR_PRIORITY)
 						pipe_out.set_piping_layer(piping_layer)
-						pipe_out.add_fingerprint(usr)
+						pipe_out.add_fingerprint(user)
 						wait = world.time + 1 SECONDS
 				if(DISPOSAL_PIPEDISPENSER)
 					if(wait < world.time)
@@ -105,11 +108,11 @@
 
 						var/obj/structure/disposalconstruct/disposal_out = new (loc, p_type)
 						if(!disposal_out.can_place())
-							to_chat(usr, span_warning("There's not enough room to build that here!"))
+							to_chat(user, span_warning("There's not enough room to build that here!"))
 							qdel(disposal_out)
 							return
 
-						disposal_out.add_fingerprint(usr)
+						disposal_out.add_fingerprint(user)
 						disposal_out.update_appearance()
 						disposal_out.setDir(params["pipe_dir"])
 						wait = world.time + 1 SECONDS
@@ -123,7 +126,7 @@
 							return
 
 						var/obj/structure/c_transit_tube/tube_out = new p_type(loc)
-						tube_out.add_fingerprint(usr)
+						tube_out.add_fingerprint(user)
 						tube_out.update_appearance()
 						tube_out.setDir(params["pipe_dir"])
 						wait = world.time + 1 SECONDS
@@ -136,7 +139,7 @@
 			if (ISNOTSTUB(target_dir))
 				p_init_dir = target_dir
 			else
-				to_chat(usr, span_warning("\The [src]'s screen flashes a warning: Can't configure a pipe to only connect in one direction."))
+				to_chat(user, span_warning("\The [src]'s screen flashes a warning: Can't configure a pipe to only connect in one direction."))
 
 		if("init_reset")
 			p_init_dir = ALL_CARDINALS

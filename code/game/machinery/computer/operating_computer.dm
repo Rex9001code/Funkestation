@@ -171,15 +171,16 @@
 
 
 
-/obj/machinery/computer/operating/ui_act(action, params)
+/obj/machinery/computer/operating/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 	switch(action)
 		if("sync")
 			sync_surgeries()
 		if("open_experiments")
-			experiment_handler.ui_interact(usr)
+			experiment_handler.ui_interact(user)
 	return TRUE
 
 #undef MENU_OPERATION

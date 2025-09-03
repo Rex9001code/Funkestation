@@ -65,9 +65,10 @@
 
 	return data
 
-/obj/machinery/computer/teleporter/ui_act(action, params)
+/obj/machinery/computer/teleporter/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
 	if(!check_hub_connection())
@@ -88,7 +89,7 @@
 			power_station.engaged = FALSE
 			power_station.teleporter_hub.update_appearance()
 			power_station.teleporter_hub.calibrated = FALSE
-			set_target(usr)
+			set_target(user)
 			. = TRUE
 		if("calibrate")
 			if(!target_ref)

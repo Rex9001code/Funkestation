@@ -282,10 +282,11 @@ the modular shield components(not generator) are climbable
 	data["initiating_field"] = initiating
 	return data
 
-/obj/machinery/modular_shield_generator/ui_act(action, params)
+/obj/machinery/modular_shield_generator/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
-		return
+	if(!.)
+		return(action, params)
 	switch(action)
 		if ("set_radius")
 			if (active)

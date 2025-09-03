@@ -9,9 +9,9 @@
 	var/list/linked_servers = list()
 	// These are 1 for now, until servers are fixed
 	/// RAM: The how long the command que can be
-	var/ram = 1
+	var/ram = 5
 	/// Processing power: How quickly a command can be executed
-	var/processing_power = 1
+	var/processing_power = 5
 	/// The linked AI
 	var/mob/living/silicon/ai/linked_ai
 	/// If we are currently processing
@@ -19,8 +19,6 @@
 	// Special modifiers should also be stored somewhere, like ones changing the que or giving the ai abilities
 
 	/* TODO
-	* Commands
-	* Processing commands
 	* Que system for commands
 	* Being able to pause the que
 	* Components for the servers, more than just placeholders

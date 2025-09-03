@@ -210,9 +210,10 @@
 
 	return data
 
-/obj/machinery/ammo_workbench/ui_act(action, params)
+/obj/machinery/ammo_workbench/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 	switch(action)
 		if("EjectMag")

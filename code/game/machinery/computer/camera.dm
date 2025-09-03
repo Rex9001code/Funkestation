@@ -91,9 +91,10 @@
 	data["cameras"] = GLOB.cameranet.get_available_cameras_data(network)
 	return data
 
-/obj/machinery/computer/security/ui_act(action, params)
+/obj/machinery/computer/security/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
 	if(action == "switch_camera")

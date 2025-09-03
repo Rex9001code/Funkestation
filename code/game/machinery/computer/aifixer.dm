@@ -46,9 +46,10 @@
 
 	return data
 
-/obj/machinery/computer/aifixer/ui_act(action, params)
+/obj/machinery/computer/aifixer/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
 	if(!occupier)
@@ -57,7 +58,7 @@
 	switch(action)
 		if("PRG_beginReconstruction")
 			if(occupier?.health < 100)
-				to_chat(usr, span_notice("Reconstruction in progress. This will take several minutes."))
+				to_chat(user, span_notice("Reconstruction in progress. This will take several minutes."))
 				playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 25, FALSE)
 				restoring = TRUE
 				occupier.notify_ghost_cloning("Your core files are being restored!", source = src)

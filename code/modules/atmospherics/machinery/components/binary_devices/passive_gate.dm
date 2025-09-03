@@ -82,14 +82,15 @@ Passive gate is similar to the regular pump except:
 	data["max_pressure"] = round(MAX_PASSIVE_OUTPUT_PRESSURE)
 	return data
 
-/obj/machinery/atmospherics/components/binary/passive_gate/ui_act(action, params)
+/obj/machinery/atmospherics/components/binary/passive_gate/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 	switch(action)
 		if("power")
 			on = !on
-			investigate_log("was turned [on ? "on" : "off"] by [key_name(usr)]", INVESTIGATE_ATMOS)
+			investigate_log("was turned [on ? "on" : "off"] by [key_name(user)]", INVESTIGATE_ATMOS)
 			. = TRUE
 		if("pressure")
 			var/pressure = params["pressure"]
@@ -101,7 +102,7 @@ Passive gate is similar to the regular pump except:
 				. = TRUE
 			if(.)
 				target_pressure = clamp(pressure, 0, MAX_PASSIVE_OUTPUT_PRESSURE)
-				investigate_log("was set to [target_pressure] kPa by [key_name(usr)]", INVESTIGATE_ATMOS)
+				investigate_log("was set to [target_pressure] kPa by [key_name(user)]", INVESTIGATE_ATMOS)
 	update_appearance()
 
 /obj/machinery/atmospherics/components/binary/passive_gate/can_unwrench(mob/user)

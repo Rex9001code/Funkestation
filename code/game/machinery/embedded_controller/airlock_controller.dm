@@ -249,9 +249,10 @@
 
 	return data
 
-/obj/machinery/airlock_controller/ui_act(action, params)
+/obj/machinery/airlock_controller/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
 	switch(action)

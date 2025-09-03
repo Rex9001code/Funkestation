@@ -167,9 +167,10 @@
 		data["cloud_backups"] = backup_list
 	return data
 
-/obj/machinery/computer/nanite_cloud_controller/ui_act(action, params)
+/obj/machinery/computer/nanite_cloud_controller/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 	switch(action)
 		if("eject")

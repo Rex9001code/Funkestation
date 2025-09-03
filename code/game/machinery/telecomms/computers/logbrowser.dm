@@ -95,14 +95,14 @@
 	return data
 
 
-/obj/machinery/computer/telecomms/server/ui_act(action, params)
+/obj/machinery/computer/telecomms/server/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
 	error_message = ""
 
-	. = TRUE
 	switch(action)
 		if("scan_network")
 			// Scan for a network
@@ -148,7 +148,7 @@
 			if(!(packet in SelectedServer.log_entries))
 				error_message = "OPERATION FAILED: PACKET NOT FOUND."
 				return
-			if(!src.allowed(usr) && !(obj_flags & EMAGGED))
+			if(!src.allowed(user) && !(obj_flags & EMAGGED))
 				error_message = "OPERATION FAILED: ACCESS DENIED."
 				return
 			SelectedServer.log_entries.Remove(packet)

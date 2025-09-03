@@ -113,10 +113,11 @@
 			data["requests"] = request_list
 	return data
 
-/obj/machinery/computer/message_monitor/ui_act(action, params)
+/obj/machinery/computer/message_monitor/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
-		return .
+	if(!.)
+		return
 
 	error_message = ""
 	success_message = ""
@@ -144,7 +145,7 @@
 				message_servers += message_server
 
 			if(length(message_servers) > 1)
-				linkedServer = tgui_input_list(usr, "Please select a server", "Server Selection", message_servers)
+				linkedServer = tgui_input_list(user, "Please select a server", "Server Selection", message_servers)
 				if(linkedServer)
 					notice_message = "NOTICE: Server selected."
 				else if(length(message_servers) > 0)
@@ -176,10 +177,10 @@
 			notice_message = "NOTICE: Logs cleared."
 			return TRUE
 		if("set_key")
-			var/dkey = tgui_input_text(usr, "Please enter the decryption key", "Telecomms Decryption")
+			var/dkey = tgui_input_text(user, "Please enter the decryption key", "Telecomms Decryption")
 			if(dkey && dkey != "")
 				if(linkedServer.decryptkey == dkey)
-					var/newkey = tgui_input_text(usr, "Please enter the new key (3 - 16 characters max)", "New Key")
+					var/newkey = tgui_input_text(user, "Please enter the new key (3 - 16 characters max)", "New Key")
 					if(length(newkey) <= 3)
 						notice_message = "NOTICE: Decryption key too short!"
 					else if(newkey && newkey != "")
@@ -206,8 +207,8 @@
 					break
 			return TRUE
 		if("send_fake_message")
-			var/sender = tgui_input_text(usr, "What is the sender's name?", "Sender")
-			var/job = tgui_input_text(usr, "What is the sender's job?", "Job")
+			var/sender = tgui_input_text(user, "What is the sender's name?", "Sender")
+			var/job = tgui_input_text(user, "What is the sender's job?", "Job")
 
 			var/recipient
 			var/list/tablet_to_messenger = list()
@@ -221,20 +222,20 @@
 				viewable_tablets += message_app.computer
 				tablet_to_messenger[message_app.computer] = message_app
 			if(length(viewable_tablets) > 0)
-				recipient = tgui_input_list(usr, "Select a tablet from the list", "Tablet Selection", viewable_tablets)
+				recipient = tgui_input_list(user, "Select a tablet from the list", "Tablet Selection", viewable_tablets)
 			else
 				recipient = null
 
-			var/message = tgui_input_text(usr, "Please enter your message", "Message")
+			var/message = tgui_input_text(user, "Please enter your message", "Message")
 			if(isnull(sender) || sender == "")
 				sender = "UNKNOWN"
 
 			if(isnull(recipient))
 				notice_message = "NOTICE: No recipient selected!"
-				return attack_hand(usr)
+				return attack_hand(user)
 			if(isnull(message) || message == "")
 				notice_message = "NOTICE: No message entered!"
-				return attack_hand(usr)
+				return attack_hand(user)
 
 			var/datum/signal/subspace/messaging/tablet_message/signal = new(src, list(
 				"fakename" = "[sender]",
@@ -244,7 +245,7 @@
 			))
 			// This will log the signal and transmit it to the target
 			linkedServer.receive_information(signal, null)
-			usr.log_message("(Tablet: [name] | [usr.real_name]) sent \"[message]\" to [signal.format_target()]", LOG_PDA)
+			user.log_message("(Tablet: [name] | [user.real_name]) sent \"[message]\" to [signal.format_target()]", LOG_PDA)
 			return TRUE
 		// Malfunction AI and cyborgs can hack console. This will auth console, but you need to wait password selection
 		if("hack")

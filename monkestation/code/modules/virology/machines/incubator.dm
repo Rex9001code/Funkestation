@@ -99,9 +99,10 @@
 	update_appearance()
 
 
-/obj/machinery/disease2/incubator/ui_act(action, params)
+/obj/machinery/disease2/incubator/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if (.)
+	if(!.)
 		return
 
 	switch(action)
@@ -110,7 +111,7 @@
 			if (on)
 				for (var/datum/dish_incubator_dish/dish_datum in dish_data)
 					if (dish_datum.dish.contained_virus)
-						dish_datum.dish.contained_virus.log += "<br />[ROUND_TIME()] Incubation started by [key_name(usr)]"
+						dish_datum.dish.contained_virus.log += "<br />[ROUND_TIME()] Incubation started by [key_name(user)]"
 
 			update_appearance()
 			return TRUE
@@ -125,8 +126,8 @@
 				return TRUE
 
 			dish_datum.dish.forceMove(loc)
-			if (Adjacent(usr))
-				usr.put_in_hands(dish_datum.dish)
+			if (Adjacent(user))
+				user.put_in_hands(dish_datum.dish)
 
 			dish_datum.dish.update_appearance()
 			dish_data[slot] = null
@@ -138,7 +139,6 @@
 			if (slot == null || slot < 1 || slot > dish_data.len)
 				return TRUE
 
-			var/mob/living/user = usr
 			if (!isliving(user))
 				return TRUE
 
@@ -158,7 +158,7 @@
 			if (dish_datum == null)
 				return TRUE
 
-			dish_datum.dish.examine(usr)
+			dish_datum.dish.examine(user)
 			return TRUE
 
 		if ("flushdish")
@@ -179,11 +179,11 @@
 			var/datum/dish_incubator_dish/dish_datum = dish_data[slot]
 			if (dish_datum == null)
 				return TRUE
-			var/stage_to_focus = input(usr, "Choose a stage to focus on. This will block symptoms from other stages from being mutated. Input 0 to disable effect focusing.", "Choose a stage.") as num
+			var/stage_to_focus = input(user, "Choose a stage to focus on. This will block symptoms from other stages from being mutated. Input 0 to disable effect focusing.", "Choose a stage.") as num
 			if(!stage_to_focus)
-				to_chat(usr, span_notice("The effect focusing is now turned off."))
+				to_chat(user, span_notice("The effect focusing is now turned off."))
 			else
-				to_chat(usr, span_notice("\The [src] will now focus on stage [stage_to_focus]."))
+				to_chat(user, span_notice("\The [src] will now focus on stage [stage_to_focus]."))
 			effect_focus = stage_to_focus
 			return TRUE
 
