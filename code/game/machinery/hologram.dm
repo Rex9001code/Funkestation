@@ -303,21 +303,22 @@ Possible to do for anyone motivated enough:
 		data["holo_calls"] += list(call_data)
 	return data
 
-/obj/machinery/holopad/ui_act(action, list/params)
+/obj/machinery/holopad/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
 	switch(action)
 		if("AIrequest")
-			if(isAI(usr))
-				var/mob/living/silicon/ai/ai_user = usr
+			if(isAI(user))
+				var/mob/living/silicon/ai/ai_user = user
 				ai_user.eyeobj.setLoc(get_turf(src))
-				to_chat(usr, span_info("AIs can not request AI presence. Jumping instead."))
+				to_chat(user, span_info("AIs can not request AI presence. Jumping instead."))
 				return
 			if(last_request + 200 < world.time)
 				last_request = world.time
-				to_chat(usr, span_info("You requested an AI's presence."))
+				to_chat(user, span_info("You requested an AI's presence."))
 				var/area/area = get_area(src)
 				for(var/mob/living/silicon/ai/AI in GLOB.silicon_mobs)
 					if(!AI.client)
@@ -325,31 +326,31 @@ Possible to do for anyone motivated enough:
 					to_chat(AI, span_info("Your presence is requested at <a href='byond://?src=[REF(AI)];jump_to_holopad=[REF(src)]'>\the [area]</a>. <a href='byond://?src=[REF(AI)];project_to_holopad=[REF(src)]'>Project Hologram?</a>"))
 				return TRUE
 			else
-				to_chat(usr, span_info("A request for AI presence was already sent recently."))
+				to_chat(user, span_info("A request for AI presence was already sent recently."))
 				return
 		if("holocall")
 			if(outgoing_call)
 				return
-			if(usr.loc == loc)
+			if(user.loc == loc)
 				var/list/callnames = list()
 				for(var/I in holopads)
 					var/area/A = get_area(I)
 					if(A)
 						LAZYADD(callnames[A], I)
 				callnames -= get_area(src)
-				var/result = tgui_input_list(usr, "Choose an area to call", "Holocall", sort_names(callnames))
+				var/result = tgui_input_list(user, "Choose an area to call", "Holocall", sort_names(callnames))
 				if(isnull(result))
 					return
-				if(QDELETED(usr) || outgoing_call)
+				if(QDELETED(user) || outgoing_call)
 					return
-				if(usr.loc == loc)
+				if(user.loc == loc)
 					var/input = text2num(params["headcall"])
 					var/headcall = input == 1 ? TRUE : FALSE
-					new /datum/holocall(usr, src, callnames[result], headcall)
+					new /datum/holocall(user, src, callnames[result], headcall)
 					calling = TRUE
 					return TRUE
 			else
-				to_chat(usr, span_warning("You must stand on the holopad to make a call!"))
+				to_chat(user, span_warning("You must stand on the holopad to make a call!"))
 		if("connectcall")
 			var/datum/holocall/call_to_connect = locate(params["holopad"]) in holo_calls
 			if(!QDELETED(call_to_connect))
@@ -386,7 +387,7 @@ Possible to do for anyone motivated enough:
 				record_stop()
 				return TRUE
 			else
-				record_start(usr)
+				record_start(user)
 				return TRUE
 		if("record_clear")
 			record_clear()

@@ -82,9 +82,10 @@
 
 	return data
 
-/obj/machinery/gulag_item_reclaimer/ui_act(action, params)
+/obj/machinery/gulag_item_reclaimer/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
 	switch(action)
@@ -94,7 +95,6 @@
 				to_chat(usr, span_warning("Access denied."))
 				return
 			drop_items(H)
-			. = TRUE
 
 /obj/machinery/gulag_item_reclaimer/proc/drop_items(mob/user)
 	if(!stored_items[user])

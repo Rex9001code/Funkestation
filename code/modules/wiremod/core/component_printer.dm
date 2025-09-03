@@ -112,9 +112,10 @@
 	materials.use_materials(design.materials, efficiency_coeff, 1, "printed", "[design.name]")
 	return new design.build_path(drop_location())
 
-/obj/machinery/component_printer/ui_act(action, list/params)
+/obj/machinery/component_printer/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if (.)
+	if(!.)
 		return
 
 	switch (action)
@@ -261,9 +262,10 @@
 		get_asset_datum(/datum/asset/spritesheet_batched/research_designs)
 	)
 
-/obj/machinery/debug_component_printer/ui_act(action, list/params)
+/obj/machinery/debug_component_printer/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if (.)
+	if(!.)
 		return
 
 	switch (action)
@@ -349,9 +351,10 @@
 
 	update_static_data_for_all_viewers()
 
-/obj/machinery/module_duplicator/ui_act(action, list/params)
+/obj/machinery/module_duplicator/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if (.)
+	if(!.)
 		return
 
 	switch (action)

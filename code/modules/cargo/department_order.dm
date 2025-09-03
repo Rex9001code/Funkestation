@@ -106,19 +106,22 @@ GLOBAL_LIST_INIT(department_order_cooldowns, list(
 	data["supplies"] = supply_data
 	return data
 
-/obj/machinery/computer/department_orders/ui_act(action, list/params)
+/obj/machinery/computer/department_orders/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-
-	if(!isliving(usr))
+	if(!.)
 		return
-	var/mob/living/orderer = usr
+
+	if(!isliving(user))
+		return
+	var/mob/living/orderer = user
 
 	var/obj/item/card/id/id_card = orderer.get_idcard(hand_first = TRUE)
 
 	//needs to come BEFORE preventing actions!
 	if(action == "override_order")
 		if(!(override_access in id_card.GetAccess()))
-			balloon_alert(usr, "requires head of staff access!")
+			balloon_alert(user, "requires head of staff access!")
 			playsound(src, 'sound/machines/buzz-sigh.ogg', 30, TRUE)
 			return
 
@@ -133,7 +136,7 @@ GLOBAL_LIST_INIT(department_order_cooldowns, list(
 		return
 
 	if(!check_access(id_card))
-		balloon_alert(usr, "access denied!")
+		balloon_alert(user, "access denied!")
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 30, TRUE)
 		return
 
@@ -148,13 +151,13 @@ GLOBAL_LIST_INIT(department_order_cooldowns, list(
 		return
 	var/name = "*None Provided*"
 	var/rank = "*None Provided*"
-	var/ckey = usr.ckey
-	if(ishuman(usr))
-		var/mob/living/carbon/human/human_orderer = usr
+	var/ckey = user.ckey
+	if(ishuman(user))
+		var/mob/living/carbon/human/human_orderer = user
 		name = human_orderer.get_authentification_name()
 		rank = human_orderer.get_assignment(hand_first = TRUE)
-	else if(issilicon(usr))
-		name = usr.real_name
+	else if(issilicon(user))
+		name = user.real_name
 		rank = "Silicon"
 	//already have a signal to finalize the order
 	var/already_signalled = department_order ? TRUE : FALSE

@@ -81,12 +81,14 @@
 			break
 	return data
 
-/obj/machinery/computer/pod/ui_act(action, list/params)
+/obj/machinery/computer/pod/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
-	if(!allowed(usr))
-		to_chat(usr, span_warning("Access denied."))
+
+	if(!allowed(user))
+		to_chat(user, span_warning("Access denied."))
 		return
 
 	switch(action)

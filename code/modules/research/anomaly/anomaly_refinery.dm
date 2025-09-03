@@ -312,17 +312,19 @@
 		ui = new(user, src, "AnomalyRefinery")
 		ui.open()
 
-/obj/machinery/research/anomaly_refinery/ui_act(action, list/params)
+/obj/machinery/research/anomaly_refinery/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if (.)
+	if(!.)
 		return
+
 	switch(action)
 		if("react")
 			simulate_valve()
 		if("eject_bomb")
-			eject_bomb(usr)
+			eject_bomb(user)
 		if("eject_core")
-			eject_core(usr)
+			eject_core(user)
 		if("start_implosion")
 			start_test()
 		if("swap")

@@ -322,12 +322,13 @@ Nothing else in the console has ID requirements.
 		"id_cache" = flat_id_cache,
 	)
 
-/obj/machinery/computer/rdconsole/ui_act(action, list/params)
+/obj/machinery/computer/rdconsole/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if (.)
+	if(!.)
 		return
 
-	add_fingerprint(usr)
+	add_fingerprint(user)
 
 	// Check if the console is locked to block any actions occuring
 	if (locked && action != "toggleLock")
@@ -337,21 +338,21 @@ Nothing else in the console has ID requirements.
 	switch (action)
 		if ("toggleLock")
 			if(obj_flags & EMAGGED)
-				to_chat(usr, span_boldwarning("Security protocol error: Unable to access locking protocols."))
+				to_chat(user, span_boldwarning("Security protocol error: Unable to access locking protocols."))
 				return TRUE
-			if(allowed(usr))
+			if(allowed(user))
 				locked = !locked
 			else
-				to_chat(usr, span_boldwarning("Unauthorized Access."))
+				to_chat(user, span_boldwarning("Unauthorized Access."))
 			return TRUE
 		if ("researchNode")
-			research_node(params["node_id"], usr)
+			research_node(params["node_id"], user)
 			return TRUE
 		if ("enqueueNode")
-			enqueue_node(params["node_id"], usr)
+			enqueue_node(params["node_id"], user)
 			return TRUE
 		if ("dequeueNode")
-			dequeue_node(params["node_id"], usr)
+			dequeue_node(params["node_id"], user)
 			return TRUE
 		if ("ejectDisk")
 			eject_disk(params["type"])

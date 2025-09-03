@@ -169,19 +169,21 @@
 
 	return data
 
-/obj/machinery/computer/piratepad_control/civilian/ui_act(action, params)
+/obj/machinery/computer/piratepad_control/civilian/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
+
 	if(!pad_ref?.resolve())
 		return
-	if(!usr.can_perform_action(src) || (machine_stat & (NOPOWER|BROKEN)))
+	if(!user.can_perform_action(src) || (machine_stat & (NOPOWER|BROKEN)))
 		return
 	switch(action)
 		if("recalc")
 			recalc()
 		if("send")
-			start_sending(usr)
+			start_sending(user)
 		if("stop")
 			stop_sending()
 		if("pick")
@@ -189,9 +191,8 @@
 		if("bounty")
 			add_bounties()
 		if("eject")
-			id_eject(usr, inserted_scan_id)
+			id_eject(user, inserted_scan_id)
 			inserted_scan_id = null
-	. = TRUE
 
 ///Self explanitory, holds the ID card in the console for bounty payout and manipulation.
 /obj/machinery/computer/piratepad_control/civilian/proc/id_insert(mob/user, obj/item/inserting_item, obj/item/target)

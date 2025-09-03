@@ -125,9 +125,11 @@
 
 	return data
 
-/obj/machinery/iv_drip/ui_act(action, params)
-	if(..())
-		return TRUE
+/obj/machinery/iv_drip/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
+	. = ..()
+	if(!.)
+		return
 	switch(action)
 		if("changeMode")
 			toggle_mode()

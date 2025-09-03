@@ -505,16 +505,13 @@ skip them. Returns the is_combat_design variable
 
 	return data
 
-/obj/machinery/mecha_part_fabricator/ui_act(action, list/params)
+/obj/machinery/mecha_part_fabricator/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-
-	if(.)
+	if(!.)
 		return
-
-	. = TRUE
-
-	add_fingerprint(usr)
-	usr.set_machine(src)
+	add_fingerprint(user)
+	user.set_machine(src)
 
 	switch(action)
 		if("build")
@@ -533,7 +530,7 @@ skip them. Returns the is_combat_design variable
 				var/datum/design/design = SSresearch.techweb_design_by_id(design_id)
 
 				if(weapon_lock_check(design) && !combat_parts_allowed)
-					balloon_alert(usr, "unauthorized!")
+					balloon_alert(user, "unauthorized!")
 					continue
 
 				if(!(design.build_type & MECHFAB) || design.id != design_id)

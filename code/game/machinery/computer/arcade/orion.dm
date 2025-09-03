@@ -185,12 +185,13 @@ GLOBAL_LIST_INIT(orion_events, generate_orion_events())
 
 	return static_data
 
-/obj/machinery/computer/arcade/orion_trail/ui_act(action, list/params)
+/obj/machinery/computer/arcade/orion_trail/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
-	var/mob/living/gamer = usr
+	var/mob/living/gamer = user
 	if(!istype(gamer))
 		return
 

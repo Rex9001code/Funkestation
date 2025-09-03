@@ -251,23 +251,25 @@
 		current_skills += list(skill_chip.get_chip_data())
 	.["current"] = current_skills
 
-/obj/machinery/skill_station/ui_act(action, list/params)
+/obj/machinery/skill_station/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
-	if(usr != occupant)
+
+	if(user != occupant)
 		return
 	switch(action)
 		if("implant")
 			if(working)
-				stack_trace("[usr] tried to start skillchip implanting when [src] was in an invalid state.")
+				stack_trace("[user] tried to start skillchip implanting when [src] was in an invalid state.")
 				return TRUE
 			if(occupant && inserted_skillchip)
 				start_implanting()
 			return TRUE
 		if("remove")
 			if(working)
-				stack_trace("[usr] tried to start skillchip removal when [src] was in an invalid state.")
+				stack_trace("[user] tried to start skillchip removal when [src] was in an invalid state.")
 				return TRUE
 			var/chipref = params["ref"]
 			var/mob/living/carbon/carbon_occupant = occupant
@@ -281,7 +283,7 @@
 			return TRUE
 		if("eject")
 			if(working)
-				stack_trace("[usr] tried to toggle skillchip activation when [src] was in an invalid state.")
+				stack_trace("[user] tried to toggle skillchip activation when [src] was in an invalid state.")
 				return TRUE
 			if(inserted_skillchip)
 				to_chat(occupant,span_notice("You eject the skillchip."))
@@ -293,7 +295,7 @@
 			var/chipref = params["ref"]
 			// Check if the machine is already working. If it is, this act should not have sent.
 			if(working)
-				stack_trace("[usr] tried to toggle skillchip activation when [src] was in an invalid state.")
+				stack_trace("[user] tried to toggle skillchip activation when [src] was in an invalid state.")
 				return TRUE
 			var/mob/living/carbon/carbon_occupant = occupant
 			var/obj/item/organ/internal/brain/occupant_brain = carbon_occupant.get_organ_slot(ORGAN_SLOT_BRAIN)

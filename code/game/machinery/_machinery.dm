@@ -696,7 +696,21 @@
 	update_last_used(usr)
 	if(isliving(usr) && in_range(src, usr))
 		play_click_sound()
-	return ..()
+
+	if(..())
+		return TRUE
+
+	machine_ui_act(action, params, usr)
+
+/// This proc should run between ui_act and the actions occuring, meaning that you want to get the actions from ui_act and then handle them in machine_ui_act
+/obj/machinery/proc/machine_ui_act(action, list/param, mob/user, ai_called = FALSE)
+	if(isAI(user) && !ai_called)
+		var/mob/living/silicon/ai/arti = user
+		var/datum/ai_command/ui_act/ui_action = new /datum/ai_command/ui_act(src, action, param, user)
+		arti.ais_que.add_command(ui_action)
+		return FALSE
+
+	return TRUE
 
 /obj/machinery/Topic(href, href_list)
 	..()

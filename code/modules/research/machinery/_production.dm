@@ -167,13 +167,11 @@
 
 	return data
 
-/obj/machinery/rnd/production/ui_act(action, list/params)
+/obj/machinery/rnd/production/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-
-	if(.)
+	if(!.)
 		return
-
-	. = TRUE
 
 	switch (action)
 		if("remove_mat")

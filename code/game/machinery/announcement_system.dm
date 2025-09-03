@@ -139,11 +139,13 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 	data["node_toggle"] = announce_research_node
 	return data
 
-/obj/machinery/announcement_system/ui_act(action, param)
+/obj/machinery/announcement_system/machine_ui_act(action, list/param, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
-	if(!usr.can_perform_action(src, ALLOW_SILICON_REACH))
+
+	if(!user.can_perform_action(src, ALLOW_SILICON_REACH))
 		return
 	if(machine_stat & BROKEN)
 		visible_message(span_warning("[src] buzzes."), span_hear("You hear a faint buzz."))
@@ -154,17 +156,17 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 			var/new_message = trim(html_encode(param["newText"]), MAX_MESSAGE_LEN)
 			if(new_message)
 				arrival = new_message
-				usr.log_message("updated the arrivals announcement to: [new_message]", LOG_GAME)
+				user.log_message("updated the arrivals announcement to: [new_message]", LOG_GAME)
 		if("NewheadText")
 			var/new_message = trim(html_encode(param["newText"]), MAX_MESSAGE_LEN)
 			if(new_message)
 				newhead = new_message
-				usr.log_message("updated the head announcement to: [new_message]", LOG_GAME)
+				user.log_message("updated the head announcement to: [new_message]", LOG_GAME)
 		if("node_message")
 			var/new_message = trim(html_encode(param["newText"]), MAX_MESSAGE_LEN)
 			if(new_message)
 				node_message = new_message
-				usr.log_message("updated the researched node announcement to: [node_message]", LOG_GAME)
+				user.log_message("updated the researched node announcement to: [node_message]", LOG_GAME)
 		if("newhead_toggle")
 			newhead_toggle = !newhead_toggle
 			update_appearance()
@@ -173,7 +175,7 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 			update_appearance()
 		if("node_toggle")
 			announce_research_node = !announce_research_node
-	add_fingerprint(usr)
+	add_fingerprint(user)
 
 /obj/machinery/announcement_system/attack_robot(mob/living/silicon/user)
 	. = attack_ai(user)

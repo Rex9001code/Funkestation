@@ -70,9 +70,10 @@
 		data["track_selected"] = selection
 	return data
 
-/obj/machinery/cassette/adv_cassette_deck/ui_act(action, list/params)
+/obj/machinery/cassette/adv_cassette_deck/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
 
 	switch(action)
@@ -90,18 +91,18 @@
 			return TRUE
 		if("eject")
 			if(!tape)
-				to_chat(usr,"Error: No Cassette Inserted Please Insert a Cassette!")
+				to_chat(user,"Error: No Cassette Inserted Please Insert a Cassette!")
 				return
-			eject_tape(usr)
+			eject_tape(user)
 			return
 		if("url")
 			///the input of the videos ID
-			var/url = stripped_input(usr, "Insert the ID of the video in question (characters after the =):", no_trim = TRUE)
+			var/url = stripped_input(user, "Insert the ID of the video in question (characters after the =):", no_trim = TRUE)
 			var/list/data
 			///the REGEX used for determining if its a valid ID or not
 			var/static/regex/link_check = regex(@"^[a-zA-Z0-9_-]{11}$")
 			if(!link_check.Find(url))
-				to_chat(usr, "Error: Bad ID!")
+				to_chat(user, "Error: Bad ID!")
 				return
 			///The Finished url to add to the song list
 			var/url_stuck = "https://www.youtube.com/watch?v=[url]"
@@ -141,19 +142,19 @@
 					return
 				tape.songs["side2"] += url_stuck
 				tape.song_names["side2"] += data["title"]
-			to_chat(usr, span_notice("The [src] makes a clicking noise as the song is added to the cassette."))
+			to_chat(user, span_notice("The [src] makes a clicking noise as the song is added to the cassette."))
 			tape.approved_tape = FALSE
-			if(ishuman(usr))
-				var/mob/living/carbon/human/user = usr
-				tape.author_name = user.real_name
-				tape.ckey_author = user.client?.ckey
+			if(ishuman(user))
+				var/mob/living/carbon/human/huser = user
+				tape.author_name = huser.real_name
+				tape.ckey_author = huser.client?.ckey
 			tape.update_appearance()
 
 			playsound(src,'sound/weapons/handcuffs.ogg',20,1)
 
 		if("design")
 			if(!tape)
-				to_chat(usr,"Error: No Cassette Inserted Please Insert a Cassette!")
+				to_chat(user,"Error: No Cassette Inserted Please Insert a Cassette!")
 				return
 			///design paths for the designer used to add a sticker to cassettes
 			var/list/design_path = list("cassette_flip",\
@@ -186,7 +187,7 @@
 							"Ocean Sticker",\
 							"Aesthetic Sticker")
 			///the input list to choose which sticker to add to the cassette
-			var/selection = tgui_input_list(usr, "Choose Your Sticker", "Advanced Cassette Deck", design_names)
+			var/selection = tgui_input_list(user, "Choose Your Sticker", "Advanced Cassette Deck", design_names)
 			if(tape.flipped == FALSE)
 				tape.icon_state = design_path[design_names.Find(selection)]
 				tape.side1_icon = design_path[design_names.Find(selection)]

@@ -396,18 +396,17 @@
 
 	return data
 
-/obj/machinery/computer/dna_console/ui_act(action, list/params)
+/obj/machinery/computer/dna_console/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
+	. = ..()
+	if(!.)
+		return
+
 	var/static/list/gene_letters = list("A", "T", "C", "G");
 	var/static/gene_letter_count = length(gene_letters)
 
-	. = ..()
-	if(.)
-		return
-
-	. = TRUE
-
-	add_fingerprint(usr)
-	usr.set_machine(src)
+	add_fingerprint(user)
+	user.set_machine(src)
 
 	switch(action)
 		// Connect this DNA Console to a nearby DNA Scanner
@@ -422,7 +421,7 @@
 			if(!scanner_operational())
 				return
 
-			connected_scanner.toggle_open(usr)
+			connected_scanner.toggle_open(user)
 			return
 
 		// Toggle the door bolts on the attached DNA Scanner
@@ -445,7 +444,7 @@
 			scanner_occupant.dna.remove_all_mutations()
 			scanner_occupant.dna.generate_dna_blocks()
 			scramble_ready = world.time + SCRAMBLE_TIMEOUT
-			to_chat(usr,span_notice("DNA scrambled."))
+			to_chat(user,span_notice("DNA scrambled."))
 			scanner_occupant.apply_status_effect(/datum/status_effect/genetic_damage, GENETIC_DAMAGE_STRENGTH_MULTIPLIER*50/(connected_scanner.damage_coeff ** 2))
 			if(connected_scanner)
 				connected_scanner.use_power(connected_scanner.active_power_usage)
@@ -523,7 +522,7 @@
 			// GUARD CHECK - Is the occupant currently undergoing some form of
 			//  transformation? If so, we don't want to be pulsing genes.
 			if(scanner_occupant.transformation_timer)
-				to_chat(usr,span_warning("Gene pulse failed: The scanner occupant undergoing a transformation."))
+				to_chat(user,span_warning("Gene pulse failed: The scanner occupant undergoing a transformation."))
 				return
 
 			// Resolve mutation's BYOND path from the alias
@@ -682,7 +681,7 @@
 			var/datum/mutation/target_mutation = get_mut_by_ref(bref, search_flags)
 
 			// Prompt for modifier string
-			var/new_sequence_input = tgui_input_text(usr, "Enter a replacement sequence", "Inherent Gene Replacement", 32, encode = FALSE)
+			var/new_sequence_input = tgui_input_text(user, "Enter a replacement sequence", "Inherent Gene Replacement", 32, encode = FALSE)
 			// Drop out if the string is the wrong length
 			if(length(new_sequence_input) != 32)
 				return
@@ -912,13 +911,13 @@
 
 			// GUARD CHECK - Make sure the disk is not full
 			if(LAZYLEN(diskette.mutations) >= diskette.max_mutations)
-				to_chat(usr,span_warning("Disk storage is full."))
+				to_chat(user,span_warning("Disk storage is full."))
 				return
 
 			// GUARD CHECK - Make sure the disk isn't set to read only, as we're
 			//  attempting to write to it
 			if(diskette.read_only)
-				to_chat(usr,span_warning("Disk is set to read only mode."))
+				to_chat(user,span_warning("Disk is set to read only mode."))
 				return
 
 			var/search_flags = 0
@@ -943,7 +942,7 @@
 
 			diskette.mutations += original.make_copy()
 
-			to_chat(usr,span_notice("Mutation successfully stored to disk."))
+			to_chat(user,span_notice("Mutation successfully stored to disk."))
 			return
 
 		// Completely removes a MUTATION_SOURCE_MUTATOR mutation or mutation with corrupt gene
@@ -1127,7 +1126,7 @@
 
 			// If we got a new type, add it to our storage
 			diskette.mutations += new result_path()
-			to_chat(usr, span_boldnotice("Success! New mutation has been added to the disk."))
+			to_chat(user, span_boldnotice("Success! New mutation has been added to the disk."))
 
 			// If it's already discovered, end here. Otherwise, add it to the list of
 			//  discovered mutations
@@ -1224,7 +1223,7 @@
 			// GUARD CHECK - Make sure the disk isn't set to read only, as we're
 			//  attempting to write (via deletion) to it
 			if(diskette.read_only)
-				to_chat(usr,span_warning("Disk is set to read only mode."))
+				to_chat(user,span_warning("Disk is set to read only mode."))
 				return
 
 			diskette.genetic_makeup_buffer.Cut()
@@ -1638,13 +1637,13 @@
 
 			// If this would take us over the max instability, we inform the user.
 			if(instability_total > max_injector_instability)
-				to_chat(usr,span_warning("Extra mutation would make the advanced injector too instable."))
+				to_chat(user,span_warning("Extra mutation would make the advanced injector too instable."))
 				return
 
 			// If we've got here, all our checks are passed and we can successfully
 			//  add the mutation to the advanced injector.
 			injector_selection[adv_inj] += original.make_copy()
-			to_chat(usr,span_notice("Mutation successfully added to advanced injector."))
+			to_chat(user,span_notice("Mutation successfully added to advanced injector."))
 			if(connected_scanner)
 				connected_scanner.use_power(connected_scanner.active_power_usage)
 			else
