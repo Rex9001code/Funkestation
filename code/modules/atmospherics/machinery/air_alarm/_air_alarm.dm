@@ -329,10 +329,9 @@ GLOBAL_LIST_EMPTY_TYPED(air_alarms, /obj/machinery/airalarm)
 
 	if(. || buildstage != AIR_ALARM_BUILD_COMPLETE)
 		return
-	if((locked && !usr.has_unlimited_silicon_privilege) || (usr.has_unlimited_silicon_privilege && aidisabled))
+	if((locked && !user.has_unlimited_silicon_privilege) || (user.has_unlimited_silicon_privilege && aidisabled))
 		return
 
-	var/mob/user = usr
 	var/area/area = connected_sensor ? get_area(connected_sensor) : get_area(src)
 
 	ASSERT(!isnull(area))

@@ -146,7 +146,7 @@
 	. = !(state_open || panel_open || (flags_1 & NODECONSTRUCT_1)) && I.tool_behaviour == TOOL_CROWBAR
 	if(.)
 		I.play_tool_sound(src, 50)
-		visible_message(span_notice("[user] pries open [src]."), span_notice("You pry open [src]."))
+		visible_message(span_notice("[usr] pries open [src]."), span_notice("You pry open [src]."))
 		open_machine()
 
 /obj/machinery/sleeper/ui_state(mob/user)
