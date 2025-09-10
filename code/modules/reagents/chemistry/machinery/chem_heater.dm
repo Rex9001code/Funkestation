@@ -405,10 +405,12 @@ To continue set your target temperature to 390K."}
 
 	return data
 
-/obj/machinery/chem_heater/ui_act(action, params)
+/obj/machinery/chem_heater/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(.)
+	if(!.)
 		return
+
 	switch(action)
 		if("power")
 			on = !on

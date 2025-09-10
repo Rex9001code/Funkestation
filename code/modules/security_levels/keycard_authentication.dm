@@ -64,9 +64,12 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/keycard_auth, 26)
 		return UI_CLOSE
 	return ..()
 
-/obj/machinery/keycard_auth/ui_act(action, params)
+/obj/machinery/keycard_auth/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
+	// Checks with our parent if we are able to do this
 	. = ..()
-	if(. || waiting || !allowed(usr))
+	if(!.)
+		return
+	if(waiting || !allowed(user))
 		return
 
 	switch(action)
@@ -80,7 +83,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/keycard_auth, 26)
 				. = TRUE
 		if("auth_swipe")
 			if(event_source)
-				event_source.trigger_event(usr)
+				event_source.trigger_event(user)
 				event_source = null
 				update_appearance()
 				. = TRUE
@@ -93,11 +96,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/keycard_auth, 26)
 				sendEvent(KEYCARD_BSA_UNLOCK)
 				. = TRUE
 		if("give_janitor_access")
-			var/mob/living/living_user = usr
+			var/mob/living/living_user = user
 			if(!living_user || !istype(living_user))
 				return TRUE
 			if(!COOLDOWN_FINISHED(src, access_grant_cooldown))
-				balloon_alert(usr, "on cooldown!")
+				balloon_alert(user, "on cooldown!")
 				return TRUE
 			var/obj/item/card/id/advanced/card = living_user.get_idcard(hand_first = TRUE)
 			if(!card)
@@ -108,7 +111,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/keycard_auth, 26)
 					continue
 				COOLDOWN_START(src, access_grant_cooldown, ACCESS_GRANTING_COOLDOWN)
 				SEND_GLOBAL_SIGNAL(COMSIG_ON_DEPARTMENT_ACCESS, info["regions"])
-				balloon_alert(usr, "key access sent")
+				balloon_alert(user, "key access sent")
 				return
 
 /obj/machinery/keycard_auth/update_appearance(updates)
