@@ -139,12 +139,10 @@ GLOBAL_LIST_EMPTY_TYPED(slime_pen_controllers, /obj/machinery/slime_pen_controll
 
 	return data
 
-/obj/machinery/slime_pen_controller/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/slime_pen_controller/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
-
 	switch(action)
 		if("buy")
 			for(var/datum/corral_upgrade/item as anything in subtypesof(/datum/corral_upgrade))

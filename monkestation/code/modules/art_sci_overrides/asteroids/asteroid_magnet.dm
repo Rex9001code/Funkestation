@@ -288,10 +288,9 @@
 
 	return data
 
-/obj/machinery/asteroid_magnet/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/asteroid_magnet/ui_act(action, list/params) // im sorry for this code
 	. = ..()
-	if(!.)
+	if (.)
 		return
 
 	var/list/map_offsets = map.return_offsets()

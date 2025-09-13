@@ -111,47 +111,46 @@
 
 	return data
 
-/obj/machinery/photocopier/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/photocopier/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
 		// Copying paper, photos, documents and asses.
 		if("make_copy")
-			if(check_busy(user))
+			if(check_busy(usr))
 				return FALSE
 			// ASS COPY. By Miauw
 			if(ass)
-				do_copy_loop(CALLBACK(src, PROC_REF(make_ass_copy), user), user)
+				do_copy_loop(CALLBACK(src, PROC_REF(make_ass_copy), usr), usr)
 				return TRUE
 			else
 				if(istype(object_copy, /obj/item/paper))
 					var/obj/item/paper/paper_copy = object_copy
 					if(!paper_copy.get_total_length())
-						to_chat(user, span_warning("An error message flashes across [src]'s screen: \"The supplied paper is blank. Aborting.\""))
+						to_chat(usr, span_warning("An error message flashes across [src]'s screen: \"The supplied paper is blank. Aborting.\""))
 						return FALSE
 					// Basic paper
-					do_copy_loop(CALLBACK(src, PROC_REF(make_paper_copy), paper_copy), user)
+					do_copy_loop(CALLBACK(src, PROC_REF(make_paper_copy), paper_copy), usr)
 					return TRUE
 				// Copying photo.
 				if(istype(object_copy, /obj/item/photo))
-					do_copy_loop(CALLBACK(src, PROC_REF(make_photo_copy), object_copy), user)
+					do_copy_loop(CALLBACK(src, PROC_REF(make_photo_copy), object_copy), usr)
 					return TRUE
 				// Copying Documents.
 				if(istype(object_copy, /obj/item/documents))
-					do_copy_loop(CALLBACK(src, PROC_REF(make_document_copy), object_copy), user)
+					do_copy_loop(CALLBACK(src, PROC_REF(make_document_copy), object_copy), usr)
 					return TRUE
 				// Copying paperwork
 				if(istype(object_copy, /obj/item/paperwork))
-					do_copy_loop(CALLBACK(src, PROC_REF(make_paperwork_copy), object_copy), user)
+					do_copy_loop(CALLBACK(src, PROC_REF(make_paperwork_copy), object_copy), usr)
 					return TRUE
 
 		// Remove the paper/photo/document from the photocopier.
 		if("remove")
 			if(object_copy)
-				remove_photocopy(object_copy, user)
+				remove_photocopy(object_copy, usr)
 				object_copy = null
 			else if(check_ass())
 				to_chat(ass, span_notice("You feel a slight pressure on your ass."))
@@ -159,13 +158,13 @@
 
 		// AI printing photos from their saved images.
 		if("ai_photo")
-			if(check_busy(user))
+			if(check_busy(usr))
 				return FALSE
-			var/mob/living/silicon/ai/tempAI = user
+			var/mob/living/silicon/ai/tempAI = usr
 			if(!length(tempAI.aicamera.stored))
-				to_chat(user, span_boldannounce("No images saved."))
+				to_chat(usr, span_boldannounce("No images saved."))
 				return
-			var/datum/picture/selection = tempAI.aicamera.selectpicture(user)
+			var/datum/picture/selection = tempAI.aicamera.selectpicture(usr)
 			var/obj/item/photo/photo = new(loc, selection) // AI prints color photos only.
 			give_pixel_offset(photo)
 			toner_cartridge.charges -= PHOTO_TONER_USE
@@ -179,9 +178,9 @@
 
 		// Remove the toner cartridge from the copier.
 		if("remove_toner")
-			if(check_busy(user))
+			if(check_busy(usr))
 				return
-			var/success = user.put_in_hands(toner_cartridge)
+			var/success = usr.put_in_hands(toner_cartridge)
 			if(!success)
 				toner_cartridge.forceMove(drop_location())
 
@@ -198,12 +197,12 @@
 			return TRUE
 		// Called when you press print blank
 		if("print_blank")
-			if(check_busy(user))
+			if(check_busy(usr))
 				return FALSE
 			if (toner_cartridge.charges - PAPER_TONER_USE < 0)
-				to_chat(user, span_warning("There is not enough toner in [src] to print the form, please replace the cartridge."))
+				to_chat(usr, span_warning("There is not enough toner in [src] to print the form, please replace the cartridge."))
 				return FALSE
-			do_copy_loop(CALLBACK(src, PROC_REF(make_blank_print), params), user)
+			do_copy_loop(CALLBACK(src, PROC_REF(make_blank_print), params), usr)
 			return TRUE
 
 /**

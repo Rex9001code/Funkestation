@@ -149,20 +149,20 @@
 	if((user.istate & ISTATE_HARM)) //so we can hit the machine
 		return ..()
 
-/obj/machinery/limbgrower/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/limbgrower/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	if (busy)
-		to_chat(user, span_warning("The limb grower is busy. Please wait for completion of previous operation."))
+		to_chat(usr, span_warning("The limb grower is busy. Please wait for completion of previous operation."))
 		return
 
 	switch(action)
 
 		if("empty_reagent")
 			reagents.del_reagent(text2path(params["reagent_type"]))
+			. = TRUE
 
 		if("make_limb")
 			var/design_id = params["design_id"]

@@ -56,10 +56,9 @@
 
 	return data
 
-/obj/machinery/hypnochair/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/hypnochair/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
@@ -69,13 +68,16 @@
 			else
 				if(!interrogating)
 					open_machine()
+			. = TRUE
 		if("set_phrase")
 			set_phrase(params["phrase"])
+			. = TRUE
 		if("interrogate")
 			if(!interrogating)
 				interrogate()
 			else
 				interrupt_interrogation()
+			. = TRUE
 
 /obj/machinery/hypnochair/proc/set_phrase(phrase)
 	trigger_phrase = phrase

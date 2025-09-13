@@ -474,10 +474,9 @@
 	return data
 
 
-/obj/machinery/biogenerator/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/biogenerator/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
@@ -486,7 +485,7 @@
 			return TRUE
 
 		if("eject")
-			eject_beaker(user)
+			eject_beaker(usr)
 			return TRUE
 
 		if("create")

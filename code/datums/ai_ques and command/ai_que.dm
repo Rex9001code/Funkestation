@@ -72,11 +72,9 @@
 		var/datum/ai_command/first_command = commands[1]
 
 		if(first_command == command)
-			qdel(command)
 			return
 
 		if(commands.len >= ram)
-			qdel(command)
 			return
 
 	commands += command

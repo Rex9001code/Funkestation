@@ -94,16 +94,15 @@
 
 	return data
 
-/obj/machinery/computer/bank_machine/machine_ui_act(action, list/param, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/bank_machine/ui_act(action, params, datum/tgui/ui)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
 		if("siphon")
 			say("Siphon of station credits has begun!")
-			start_siphon(user)
+			start_siphon(ui.user)
 			. = TRUE
 		if("halt")
 			say("Station credit withdrawal halted.")

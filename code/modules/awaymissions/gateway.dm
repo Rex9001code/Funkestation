@@ -341,10 +341,9 @@ GLOBAL_LIST_EMPTY(gateway_destinations)
 			destinations += list(possible_destination.get_ui_data())
 	.["destinations"] = destinations
 
-/obj/machinery/computer/gateway_control/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/gateway_control/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	switch(action)
 		if("linkup")

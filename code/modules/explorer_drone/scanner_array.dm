@@ -119,10 +119,9 @@ GLOBAL_LIST_INIT(scan_conditions,init_scan_conditions())
 	. = ..()
 	.["all_bands"] = GLOB.exoscanner_bands
 
-/obj/machinery/computer/exoscanner_control/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/exoscanner_control/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	switch(action)
 		if("select_site")

@@ -301,10 +301,9 @@
 
 	return data
 
-/obj/machinery/elevator_control_panel/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/elevator_control_panel/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	if(!check_panel())
@@ -312,8 +311,8 @@
 
 	switch(action)
 		if("move_lift")
-			if(!allowed(user))
-				balloon_alert(user, "access denied!")
+			if(!allowed(usr))
+				balloon_alert(usr, "access denied!")
 				return
 
 			var/desired_z = params["z"]
@@ -325,7 +324,7 @@
 			if(!lift || lift.controls_locked == LIFT_PLATFORM_LOCKED)
 				return TRUE // We shouldn't be moving anything, update UI
 
-			INVOKE_ASYNC(lift, TYPE_PROC_REF(/datum/lift_master, move_to_zlevel), desired_z, CALLBACK(src, PROC_REF(check_panel)), user)
+			INVOKE_ASYNC(lift, TYPE_PROC_REF(/datum/lift_master, move_to_zlevel), desired_z, CALLBACK(src, PROC_REF(check_panel)), usr)
 			last_move_target = desired_z
 			return TRUE // Succcessfully initiated a move. Regardless of whether it actually works, update the UI
 

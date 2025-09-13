@@ -220,16 +220,15 @@
 	update_icon()
 
 
-/obj/machinery/computer/diseasesplicer/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/diseasesplicer/ui_act(action, list/params)
 	. = ..()
-	if(!.)
-		return
+	if(.)
+		return TRUE
 
 	if(scanning || splicing || burning)
 		return FALSE
 
-	add_fingerprint(user)
+	add_fingerprint(usr)
 
 	switch(action)
 		if("eject_dish")

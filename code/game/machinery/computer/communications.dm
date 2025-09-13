@@ -143,15 +143,17 @@
 	playsound(src, 'sound/machines/terminal_alert.ogg', 50, FALSE)
 	return TRUE
 
-/obj/machinery/computer/communications/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
-	. = ..()
-	if(!.)
-		return
+/obj/machinery/computer/communications/ui_act(action, list/params)
 	var/static/list/approved_states = list(STATE_BUYING_SHUTTLE, STATE_CHANGING_STATUS, STATE_MAIN, STATE_MESSAGES)
+
+	. = ..()
+	if (.)
+		return
 
 	if (!has_communication())
 		return
+
+	. = TRUE
 
 	switch (action)
 		if ("answerMessage")

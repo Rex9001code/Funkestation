@@ -131,10 +131,9 @@
 		get_asset_datum(/datum/asset/spritesheet_batched/research_designs),
 	)
 
-/obj/machinery/autolathe/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/autolathe/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	if(action == "make")

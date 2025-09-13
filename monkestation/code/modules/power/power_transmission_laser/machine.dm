@@ -178,12 +178,10 @@
 
 	return data
 
-/obj/machinery/power/transmission_laser/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/power/transmission_laser/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if (.)
 		return
-
 	switch(action)
 		if("toggle_input")
 			turned_on = !turned_on

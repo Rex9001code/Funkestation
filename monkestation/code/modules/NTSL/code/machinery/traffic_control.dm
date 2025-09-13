@@ -101,23 +101,19 @@
 
 	return data
 
-/obj/machinery/computer/telecomms/traffic/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/telecomms/traffic/ui_act(action, list/params)
 	. = ..()
-	if(!.)
-		return
-
 	if(action == "admin_reset") // something to note, this will runtime when clicked on by an admin ghost. But still works.
-		if(!user.client.holder)
-			message_admins("[key_name_admin(user)] has attempted to call \"admin_reset\" on a traffic console, this should not be possible as a non-admin and could have been an attempted javascript injection.")
+		if(!usr.client.holder)
+			message_admins("[key_name_admin(usr)] has attempted to call \"admin_reset\" on a traffic console, this should not be possible as a non-admin and could have been an attempted javascript injection.")
 			return
 		network = "tcommsat"
 		refresh_servers()
 		for(var/obj/machinery/telecomms/server/server as anything in servers)
 			server.rawcode = "def process_signal(sig){ return sig;" // bare minimum
 		compiler_output.Cut()
-		compiler_output = compile_all(user)
-		var/message = "[key_name_admin(user)] has completelly cleared the NTSL console of code and re-compiled as an admin, this should only be done in severe rule infractions."
+		compiler_output = compile_all(usr)
+		var/message = "[key_name_admin(usr)] has completelly cleared the NTSL console of code and re-compiled as an admin, this should only be done in severe rule infractions."
 		message_admins(message)
 		logger.Log(LOG_NTSL, "[key_name(src)] [message] [loc_name(src)]")
 		access_log += "\[[get_timestamp()]\] ERR !NTSL REMOTELLY CLEARED BY NANOTRASEN STAFF!"
@@ -140,13 +136,13 @@
 			return TRUE
 		if("compile_code")
 			if(!user_name)
-				message_admins("[key_name_admin(user)] attempted compiling NTSL without being logged in.") // tell admins that someone tried a javascript injection
+				message_admins("[key_name_admin(usr)] attempted compiling NTSL without being logged in.") // tell admins that someone tried a javascript injection
 				return
 			for(var/obj/machinery/telecomms/server/server as anything in servers)
 				if(istext(storedcode))
 					server.rawcode = storedcode
 			compiler_output.Cut()
-			compiler_output = compile_all(user)
+			compiler_output = compile_all(usr)
 			return TRUE
 		if("set_network")
 			if(!user_name)
@@ -154,7 +150,7 @@
 			network = params["new_network"]
 			return TRUE
 		if("log_in")
-			var/mob/living/usr_mob = user
+			var/mob/living/usr_mob = usr
 			if(usr_mob.has_unlimited_silicon_privilege)
 				user_name = "System Administrator"
 			else if(check_access(inserted_id))
@@ -174,7 +170,7 @@
 			return TRUE
 		if("clear_logs")
 			if(!user_name)
-				message_admins("[key_name_admin(user)] attempted clearing NTSL logs without being logged in.")
+				message_admins("[key_name_admin(usr)] attempted clearing NTSL logs without being logged in.")
 				return
 			access_log.Cut()
 			create_log("cleared access logs.")

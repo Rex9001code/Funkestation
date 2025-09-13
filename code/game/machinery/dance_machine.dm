@@ -122,10 +122,9 @@
 	data["volume"] = volume
 	return data
 
-/obj/machinery/dance_machine/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/dance_machine/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)

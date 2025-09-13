@@ -292,10 +292,9 @@
 		data["records"] += list(record_data)
 	return data
 
-/obj/machinery/doppler_array/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/doppler_array/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
@@ -309,7 +308,7 @@
 			var/datum/data/tachyon_record/record  = locate(params["ref"]) in records
 			if(!records || !(record in records))
 				return
-			print(user, record)
+			print(usr, record)
 			return TRUE
 		if("eject_disk")
-			eject_disk(user)
+			eject_disk(usr)

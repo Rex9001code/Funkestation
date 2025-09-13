@@ -67,16 +67,14 @@
 
 	return data
 
-/obj/machinery/computer/prisoner/gulag_teleporter_computer/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/prisoner/gulag_teleporter_computer/ui_act(action, list/params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
-
-	if(isliving(user))
+	if(isliving(usr))
 		playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
-	if(!allowed(user))
-		to_chat(user, span_warning("Access denied."))
+	if(!allowed(usr))
+		to_chat(usr, span_warning("Access denied."))
 		return
 	switch(action)
 		if("scan_teleporter")
@@ -87,9 +85,9 @@
 			return TRUE
 		if("handle_id")
 			if(contained_id)
-				id_eject(user)
+				id_eject(usr)
 			else
-				id_insert(user)
+				id_insert(usr)
 			return TRUE
 		if("set_goal")
 			if(!contained_id)
@@ -103,20 +101,20 @@
 			return TRUE
 		if("toggle_open")
 			if(teleporter.locked)
-				to_chat(user, span_alert("The teleporter must be unlocked first."))
+				to_chat(usr, span_alert("The teleporter must be unlocked first."))
 				return
 			teleporter.toggle_open()
 			return TRUE
 		if("teleporter_lock")
 			if(teleporter.state_open)
-				to_chat(user, span_alert("The teleporter must be closed first."))
+				to_chat(usr, span_alert("The teleporter must be closed first."))
 				return
 			teleporter.locked = !teleporter.locked
 			return TRUE
 		if("teleport")
 			if(!teleporter || !beacon)
 				return
-			addtimer(CALLBACK(src, PROC_REF(teleport), user), 5)
+			addtimer(CALLBACK(src, PROC_REF(teleport), usr), 5)
 			return TRUE
 
 /obj/machinery/computer/prisoner/gulag_teleporter_computer/proc/scan_machinery()

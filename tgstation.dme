@@ -1089,7 +1089,7 @@
 #include "code\datums\ai_laws\laws_station_sided.dm"
 #include "code\datums\ai_ques and command\ai_command.dm"
 #include "code\datums\ai_ques and command\ai_que.dm"
-#include "code\datums\ai_ques and command\commands\ui_command.dm"
+#include "code\datums\ai_ques and command\commands\click_command.dm"
 #include "code\datums\announcers\_announcer.dm"
 #include "code\datums\announcers\default_announcer.dm"
 #include "code\datums\announcers\intern_announcer.dm"
