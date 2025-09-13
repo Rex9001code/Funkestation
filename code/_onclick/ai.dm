@@ -48,7 +48,6 @@
 	var/turf/pixel_turf = get_turf_pixel(A)
 	if(isnull(pixel_turf))
 		return
-
 	if(!can_see(A))
 		return
 
@@ -81,7 +80,6 @@
 		aicamera.toggle_camera_mode(sound = FALSE)
 		aicamera.captureimage(pixel_turf, usr)
 		return
-
 	if(waypoint_mode)
 		waypoint_mode = 0
 		set_waypoint(A)
