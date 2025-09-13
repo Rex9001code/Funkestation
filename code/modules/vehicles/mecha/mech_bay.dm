@@ -112,12 +112,10 @@
 		ui = new(user, src, "MechBayPowerConsole", name)
 		ui.open()
 
-/obj/machinery/computer/mech_bay_power_console/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/mech_bay_power_console/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
-
 	switch(action)
 		if("reconnect")
 			reconnect()

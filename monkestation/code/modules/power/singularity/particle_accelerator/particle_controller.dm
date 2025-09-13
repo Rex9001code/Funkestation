@@ -297,10 +297,8 @@
 	data["strength"] = strength
 	return data
 
-/obj/machinery/particle_accelerator/control_box/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
-	. = ..()
-	if(!.)
+/obj/machinery/particle_accelerator/control_box/ui_act(action, params)
+	if(..())
 		return
 
 	switch(action)

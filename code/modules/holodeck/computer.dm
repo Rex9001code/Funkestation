@@ -152,11 +152,11 @@ GLOBAL_LIST_INIT(typecache_holodeck_linked_floorcheck_ok, typecacheof(list(/turf
 	data["can_toggle_safety"] = issilicon(user) || isAdminGhostAI(user)
 	return data
 
-/obj/machinery/computer/holodeck/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/holodeck/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
+	. = TRUE
 
 	switch(action)
 		if("load_program")
