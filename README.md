@@ -1,4 +1,4 @@
-# monkestation codebase
+# funkestation codebase
 
 [![Build Status](https://github.com/monkestation/monkestation2.0/workflows/CI%20Suite/badge.svg)](https://github.com/monkestation/monkestation2.0/actions?query=workflow%3A%22CI+Suite%22)
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/monkestation/monkestation2.0.svg)](https://isitmaintained.com/project/monkestation/monkestation2.0 "Percentage of issues still open")
