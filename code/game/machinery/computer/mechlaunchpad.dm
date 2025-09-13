@@ -199,10 +199,9 @@
 			data["mechonly"] = current_pad.mech_only
 	return data
 
-/obj/machinery/computer/mechpad/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/mechpad/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	var/obj/machinery/mechpad/current_pad = mechpads[selected_id]
 	switch(action)
@@ -214,9 +213,9 @@
 				return
 			current_pad.display_name = new_name
 		if("remove")
-			if(user && tgui_alert(user, "Are you sure?", "Unlink Orbital Pad", list("I'm Sure", "Abort")) == "I'm Sure")
+			if(usr && tgui_alert(usr, "Are you sure?", "Unlink Orbital Pad", list("I'm Sure", "Abort")) == "I'm Sure")
 				remove_pad(current_pad)
 				selected_id = null
 		if("launch")
-			try_launch(user, current_pad)
+			try_launch(usr, current_pad)
 	. = TRUE

@@ -114,10 +114,9 @@
 			)
 	return data
 
-/obj/machinery/computer/apc_control/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/apc_control/ui_act(action, params, datum/tgui/ui)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
@@ -127,7 +126,7 @@
 				auth_id = "Unknown (Unknown):"
 				log_activity("[auth_id] logged in to the terminal")
 				return
-			var/mob/living/operator = user
+			var/mob/living/operator = usr
 			if(!istype(operator))
 				return
 			var/obj/item/card/id/ID = operator.get_idcard(TRUE)
@@ -152,7 +151,7 @@
 			auth_id = "\[NULL\]"
 		if("toggle-logs")
 			should_log = !should_log
-			user.log_message("set the logs of [src] [should_log ? "On" : "Off"].", LOG_GAME)
+			usr.log_message("set the logs of [src] [should_log ? "On" : "Off"].", LOG_GAME)
 		if("restore-console")
 			restoring = TRUE
 			addtimer(CALLBACK(src, PROC_REF(restore_comp)), rand(3,5) * 9 SECONDS)
@@ -160,7 +159,7 @@
 			var/ref = params["ref"]
 			playsound(src, SFX_TERMINAL_TYPE, 50, FALSE)
 			var/obj/machinery/power/apc/APC = locate(ref) in GLOB.apcs_list
-			connect_apc(APC, user)
+			connect_apc(APC, usr)
 		if("check-logs")
 			log_activity("Checked Logs")
 		if("check-apcs")
@@ -178,8 +177,8 @@
 				if("equipment", "lighting", "environ")
 					target.vars[type] = value
 				else
-					message_admins("Warning: possible href exploit by [key_name(user)] - attempted to set [html_encode(type)] on [target] to [html_encode(value)]")
-					user.log_message("possibly trying to href exploit - attempted to set [html_encode(type)] on [target] to [html_encode(value)]", LOG_ADMIN)
+					message_admins("Warning: possible href exploit by [key_name(usr)] - attempted to set [html_encode(type)] on [target] to [html_encode(value)]")
+					usr.log_message("possibly trying to href exploit - attempted to set [html_encode(type)] on [target] to [html_encode(value)]", LOG_ADMIN)
 					return
 
 			target.update_appearance()
@@ -195,11 +194,11 @@
 				if(3)
 					setTo = "Auto On"
 			log_activity("Set APC [target.area.name] [type] to [setTo]")
-			user.log_message("set APC [target.area.name] [type] to [setTo]]", LOG_GAME)
+			usr.log_message("set APC [target.area.name] [type] to [setTo]]", LOG_GAME)
 		if("breaker")
 			var/ref = params["ref"]
 			var/obj/machinery/power/apc/target = locate(ref) in GLOB.apcs_list
-			target.toggle_breaker(user)
+			target.toggle_breaker(usr)
 			var/setTo = target.operating ? "On" : "Off"
 			log_activity("Turned APC [target.area.name]'s breaker [setTo]")
 

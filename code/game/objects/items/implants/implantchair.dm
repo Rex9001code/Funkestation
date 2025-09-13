@@ -54,10 +54,9 @@
 
 	return data
 
-/obj/machinery/implantchair/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/implantchair/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	switch(action)
 		if("door")
@@ -65,8 +64,10 @@
 				close_machine()
 			else
 				open_machine()
+			. = TRUE
 		if("implant")
 			implant(occupant, usr)
+			. = TRUE
 
 /obj/machinery/implantchair/proc/implant(mob/living/M,mob/user)
 	if (!istype(M))

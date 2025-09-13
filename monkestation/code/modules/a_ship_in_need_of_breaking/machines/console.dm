@@ -94,10 +94,9 @@
 
 	return data
 
-/obj/machinery/computer/shipbreaker/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/shipbreaker/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	. = TRUE
 

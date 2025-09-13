@@ -246,10 +246,9 @@
 	data["status_report"] = status_report
 	return data
 
-/obj/machinery/computer/piratepad_control/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/piratepad_control/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	if(!pad_ref?.resolve())
 		return

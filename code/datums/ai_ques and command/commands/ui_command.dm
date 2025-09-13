@@ -1,7 +1,7 @@
 /datum/ai_command/ui_act
 	// This should do shit when the ai uses ui_act ideally but since I want to prototype this quick
 	name = "Click"
-	process_required = 5
+	process_required = 500
 	var/obj/machinery/machinery
 	var/act
 	var/atom/user

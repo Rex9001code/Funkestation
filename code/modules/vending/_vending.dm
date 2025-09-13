@@ -1199,10 +1199,9 @@
 
 	.["extended_inventory"] = extended_inventory
 
-/obj/machinery/vending/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/vending/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	switch(action)
 		if("vend")
@@ -1572,15 +1571,14 @@
 			)
 			.["vending_machine_input"] += list(data)
 
-/obj/machinery/vending/custom/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/vending/custom/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	switch(action)
 		if("dispense")
-			if(isliving(user))
-				vend_act(user, params)
+			if(isliving(usr))
+				vend_act(usr, params)
 				vend_ready = TRUE
 			vend_ready = TRUE
 			return TRUE

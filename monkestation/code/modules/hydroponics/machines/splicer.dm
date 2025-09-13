@@ -118,10 +118,9 @@
 		ui.set_autoupdate(TRUE)
 		ui.open()
 
-/obj/machinery/splicer/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/splicer/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)

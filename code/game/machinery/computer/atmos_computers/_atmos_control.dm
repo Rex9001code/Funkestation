@@ -152,13 +152,9 @@
 		data["chambers"] += list(chamber_info)
 	return data
 
-/obj/machinery/computer/atmos_control/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/atmos_control/ui_act(action, params)
 	. = ..()
-	if(!.)
-		return
-
-	if(!(control || reconnecting))
+	if(. || !(control || reconnecting))
 		return
 
 	var/chamber = params["chamber"]
@@ -229,7 +225,7 @@
 
 			output.internal_pressure_bound = target
 		if("reconnect")
-			reconnect(user)
+			reconnect(usr)
 
 	return TRUE
 

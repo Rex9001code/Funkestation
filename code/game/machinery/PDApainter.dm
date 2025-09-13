@@ -280,10 +280,9 @@
 
 	return data
 
-/obj/machinery/pdapainter/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/pdapainter/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
@@ -291,14 +290,14 @@
 			if((machine_stat & BROKEN))
 				return TRUE
 
-			var/obj/item/held_item = user.get_active_held_item()
+			var/obj/item/held_item = usr.get_active_held_item()
 			if(istype(held_item, /obj/item/modular_computer/pda))
 				// If we successfully inserted, we've ejected the old item. Return early.
-				if(insert_pda(held_item, user))
+				if(insert_pda(held_item, usr))
 					return TRUE
 			// If we did not successfully insert, try to eject.
 			if(stored_pda)
-				eject_pda(user)
+				eject_pda(usr)
 				return TRUE
 
 			return TRUE
@@ -306,14 +305,14 @@
 			if((machine_stat & BROKEN))
 				return TRUE
 
-			var/obj/item/held_item = user.get_active_held_item()
+			var/obj/item/held_item = usr.get_active_held_item()
 			if(isidcard(held_item))
 				// If we successfully inserted, we've ejected the old item. Return early.
-				if(insert_id_card(held_item, user))
+				if(insert_id_card(held_item, usr))
 					return TRUE
 			// If we did not successfully insert, try to eject.
 			if(stored_id_card)
-				eject_id_card(user)
+				eject_id_card(usr)
 				return TRUE
 
 			return TRUE
@@ -355,7 +354,7 @@
 				if(SSid_access.apply_trim_to_card(stored_id_card, path, copy_access = FALSE))
 					return TRUE
 
-				to_chat(user, span_warning("The trim you selected could not be added to \the [stored_id_card]. You will need a rarer ID card to imprint that trim data."))
+				to_chat(usr, span_warning("The trim you selected could not be added to \the [stored_id_card]. You will need a rarer ID card to imprint that trim data."))
 
 			return TRUE
 		if("reset_card")

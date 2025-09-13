@@ -108,15 +108,14 @@
 
 	return data
 
-/obj/machinery/nanite_program_hub/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/nanite_program_hub/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
-
 	switch(action)
 		if("eject")
-			eject(user)
+			eject(usr)
+			. = TRUE
 		if("download")
 			if(!disk)
 				return
@@ -128,12 +127,16 @@
 			disk.program = new downloaded.program_type
 			disk.name = "[initial(disk.name)] \[[disk.program.name]\]"
 			playsound(src, 'sound/machines/terminal_prompt.ogg', 25, FALSE)
+			. = TRUE
 		if("refresh")
-			update_static_data(user)
+			update_static_data(usr)
+			. = TRUE
 		if("toggle_details")
 			detail_view = !detail_view
+			. = TRUE
 		if("clear")
 			if(disk?.program)
 				qdel(disk.program)
 				disk.program = null
 				disk.name = initial(disk.name)
+			. = TRUE

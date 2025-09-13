@@ -233,10 +233,9 @@
 	data["target_nutrition"] = detect_nutrition
 	return data
 
-/obj/machinery/scanner_gate/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/scanner_gate/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
@@ -248,7 +247,7 @@
 			reverse = !reverse
 			. = TRUE
 		if("toggle_lock")
-			if(allowed(user))
+			if(allowed(usr))
 				locked = !locked
 			. = TRUE
 		if("set_disease_threshold")

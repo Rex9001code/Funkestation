@@ -158,10 +158,9 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 		ui.set_autoupdate(FALSE)
 		ui.open()
 
-/obj/machinery/requests_console/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/requests_console/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
@@ -200,27 +199,27 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 			return TRUE
 		if("send_announcement")
 			if(!COOLDOWN_FINISHED(src, announcement_cooldown))
-				to_chat(user, span_alert("Intercomms recharging. Please stand by."))
+				to_chat(usr, span_alert("Intercomms recharging. Please stand by."))
 				return
 			if(!can_send_announcements)
 				return
-			if(!(announcement_authenticated || isAdminGhostAI(user)))
+			if(!(announcement_authenticated || isAdminGhostAI(usr)))
 				return
 
 			var/message = reject_bad_text(trim(html_encode(params["message"]), MAX_MESSAGE_LEN), ascii_only = FALSE)
 			if(!message)
-				to_chat(user, span_alert("Invalid message."))
+				to_chat(usr, span_alert("Invalid message."))
 				return
-			if(isliving(user))
-				var/mob/living/L = user
+			if(isliving(usr))
+				var/mob/living/L = usr
 //				message = L.treat_message(message)["message"] MONKESTATION EDIT CHANGE OLD -- we dont have TTS
 				message = L.treat_message(message) // MONKESTATION EDIT CHANGE NEW
 
 			minor_announce(message, "[department] Announcement:", html_encode = FALSE, sound_override = 'sound/misc/announce_dig.ogg')
 			GLOB.news_network.submit_article(message, department, "Station Announcements", null)
-			user.log_talk(message, LOG_SAY, tag="station announcement from [src]")
-			message_admins("[ADMIN_LOOKUPFLW(user)] has made a station announcement from [src] at [AREACOORD(user)].")
-			deadchat_broadcast(" made a station announcement from [span_name("[get_area_name(user, TRUE)]")].", span_name("[user.real_name]"), user, message_type=DEADCHAT_ANNOUNCEMENT)
+			usr.log_talk(message, LOG_SAY, tag="station announcement from [src]")
+			message_admins("[ADMIN_LOOKUPFLW(usr)] has made a station announcement from [src] at [AREACOORD(usr)].")
+			deadchat_broadcast(" made a station announcement from [span_name("[get_area_name(usr, TRUE)]")].", span_name("[usr.real_name]"), usr, message_type=DEADCHAT_ANNOUNCEMENT)
 
 			COOLDOWN_START(src, announcement_cooldown, ANNOUNCEMENT_COOLDOWN_TIME)
 			announcement_authenticated = FALSE
@@ -228,7 +227,7 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 		if("quick_reply")
 			var/recipient = params["reply_recipient"]
 
-			var/reply_message = reject_bad_text(tgui_input_text(user, "Write a quick reply to [recipient]", "Awaiting Input"), ascii_only = FALSE)
+			var/reply_message = reject_bad_text(tgui_input_text(usr, "Write a quick reply to [recipient]", "Awaiting Input"), ascii_only = FALSE)
 
 			if(!reply_message)
 				has_mail_send_error = TRUE
@@ -246,7 +245,7 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 				return
 			var/message = reject_bad_text(trim(html_encode(params["message"]), MAX_MESSAGE_LEN), ascii_only = FALSE)
 			if(!message)
-				to_chat(user, span_alert("Invalid message."))
+				to_chat(usr, span_alert("Invalid message."))
 				has_mail_send_error = TRUE
 				return TRUE
 			var/request_type = params["request_type"]

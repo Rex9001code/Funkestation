@@ -260,10 +260,9 @@
 		ui = new(user, src, "BombActualizer", name)
 		ui.open()
 
-/obj/machinery/bomb_actualizer/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/bomb_actualizer/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if (.)
 		return
 	if(action == "start_timer" && !active)
 		start_detonation()

@@ -125,15 +125,13 @@ GLOBAL_LIST_EMPTY(order_console_products)
 		))
 	return data
 
-/obj/machinery/computer/order_console/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/order_console/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
-
-	if(!isliving(user))
+	if(!isliving(usr))
 		return
-	var/mob/living/living_user = user
+	var/mob/living/living_user = usr
 	switch(action)
 		if("add_one")
 			var/datum/orderable_item/wanted_item = locate(params["target"]) in GLOB.order_console_products

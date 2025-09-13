@@ -262,10 +262,9 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/newscaster, 30)
 	return data
 
 
-/obj/machinery/newscaster/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/newscaster/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	var/current_ref_num = params["request"]
 	var/current_app_num = params["applicant"]
@@ -292,7 +291,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/newscaster, 30)
 
 		if("createStory")
 			if(!current_channel)
-				balloon_alert(user, "select a channel first!")
+				balloon_alert(usr, "select a channel first!")
 				return TRUE
 			var/prototype_channel = params["current"]
 			create_story(channel_name = prototype_channel)
@@ -332,8 +331,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/newscaster, 30)
 
 		if("storyCensor")
 			var/obj/item/card/id/id_card
-			if(isliving(user))
-				var/mob/living/living_user = user
+			if(isliving(usr))
+				var/mob/living/living_user = usr
 				id_card = living_user.get_idcard(hand_first = TRUE)
 			if(!(admin_access in id_card?.GetAccess()))
 				say("Clearance not found.")
@@ -346,8 +345,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/newscaster, 30)
 
 		if("authorCensor")
 			var/obj/item/card/id/id_card
-			if(isliving(user))
-				var/mob/living/living_user = user
+			if(isliving(usr))
+				var/mob/living/living_user = usr
 				id_card = living_user.get_idcard(hand_first = TRUE)
 			if(!(admin_access in id_card?.GetAccess()))
 				say("Clearance not found.")
@@ -360,8 +359,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/newscaster, 30)
 
 		if("channelDNotice")
 			var/obj/item/card/id/id_card
-			if(isliving(user))
-				var/mob/living/living_user = user
+			if(isliving(usr))
+				var/mob/living/living_user = usr
 				id_card = living_user.get_idcard(hand_first = TRUE)
 			if(!(admin_access in id_card?.GetAccess()))
 				say("Clearance not found.")
@@ -404,14 +403,14 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/newscaster, 30)
 			return TRUE
 
 		if("setCriminalName")
-			var/temp_name = tgui_input_text(user, "Write the Criminal's Name", "Warrent Alert Handler", "John Doe", MAX_NAME_LEN, multiline = FALSE)
+			var/temp_name = tgui_input_text(usr, "Write the Criminal's Name", "Warrent Alert Handler", "John Doe", MAX_NAME_LEN, multiline = FALSE)
 			if(!temp_name)
 				return TRUE
 			criminal_name = temp_name
 			return TRUE
 
 		if("setCrimeData")
-			var/temp_desc = tgui_input_text(user, "Write the Criminal's Crimes", "Warrent Alert Handler", "Unknown", MAX_BROADCAST_LEN, multiline = TRUE)
+			var/temp_desc = tgui_input_text(usr, "Write the Criminal's Crimes", "Warrent Alert Handler", "Unknown", MAX_BROADCAST_LEN, multiline = TRUE)
 			if(!temp_desc)
 				return TRUE
 			crime_description = temp_desc
@@ -425,7 +424,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/newscaster, 30)
 			return TRUE
 
 		if("clearWantedIssue")
-			clear_wanted_issue(user)
+			clear_wanted_issue(user = usr)
 			for(var/obj/machinery/newscaster/other_newscaster in GLOB.allCasters)
 				other_newscaster.update_appearance()
 				return TRUE

@@ -28,21 +28,20 @@
 
 	return data
 
-/obj/machinery/computer/atmos_alert/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/computer/atmos_alert/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
 		if("clear")
 			var/zone = params["zone"]
 			if(zone in priority_alarms)
-				to_chat(user, span_notice("Priority alarm for [zone] cleared."))
+				to_chat(usr, span_notice("Priority alarm for [zone] cleared."))
 				priority_alarms -= zone
 				. = TRUE
 			if(zone in minor_alarms)
-				to_chat(user, span_notice("Minor alarm for [zone] cleared."))
+				to_chat(usr, span_notice("Minor alarm for [zone] cleared."))
 				minor_alarms -= zone
 				. = TRUE
 	update_appearance()

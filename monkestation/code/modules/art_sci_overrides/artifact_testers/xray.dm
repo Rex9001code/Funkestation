@@ -117,10 +117,9 @@
 		ui = new(user, src, "ArtifactXray", name)
 		ui.open()
 
-/obj/machinery/artifact_xray/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/artifact_xray/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	switch(action)
 		if("toggleopen")

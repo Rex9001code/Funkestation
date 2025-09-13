@@ -321,11 +321,8 @@ GLOBAL_LIST_EMPTY_TYPED(air_alarms, /obj/machinery/airalarm)
 
 	return data
 
-/obj/machinery/airalarm/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/airalarm/ui_act(action, params)
 	. = ..()
-	if(!.)
-		return
 
 	if(. || buildstage != AIR_ALARM_BUILD_COMPLETE)
 		return

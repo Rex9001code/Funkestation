@@ -253,10 +253,9 @@
 		data["currentTemp"] = round(current_temperature - T0C, 1)
 	return data
 
-/obj/machinery/space_heater/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/space_heater/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 
 	switch(action)
@@ -279,7 +278,7 @@
 					settable_temperature_median + settable_temperature_range)
 		if("eject")
 			if(panel_open && cell)
-				user.put_in_hands(cell)
+				usr.put_in_hands(cell)
 				cell = null
 				. = TRUE
 
@@ -351,15 +350,14 @@
 	.["beaker"] = beaker
 	.["currentTemp"] = beaker ? (round(beaker.reagents.chem_temp - T0C)) : "N/A"
 
-/obj/machinery/space_heater/improvised_chem_heater/machine_ui_act(action, list/params, mob/user, ai_called = FALSE)
-	// Checks with our parent if we are able to do this
+/obj/machinery/space_heater/improvised_chem_heater/ui_act(action, params)
 	. = ..()
-	if(!.)
+	if(.)
 		return
 	switch(action)
 		if("ejectBeaker")
 			//Eject doesn't turn it off, so you can preheat for beaker swapping
-			replace_beaker(user)
+			replace_beaker(usr)
 			. = TRUE
 
 ///Slightly modified to ignore the open_hatch - it's always open, we hacked it.
