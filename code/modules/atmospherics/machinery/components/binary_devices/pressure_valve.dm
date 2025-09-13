@@ -86,8 +86,7 @@
 	// Checks with our parent if we are able to do this
 	. = ..()
 	if(!.)
-		return
-
+		return(action, params)
 	switch(action)
 		if("power")
 			on = !on

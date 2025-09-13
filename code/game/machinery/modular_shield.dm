@@ -286,8 +286,7 @@ the modular shield components(not generator) are climbable
 	// Checks with our parent if we are able to do this
 	. = ..()
 	if(!.)
-		return
-
+		return(action, params)
 	switch(action)
 		if ("set_radius")
 			if (active)
